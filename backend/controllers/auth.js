@@ -52,6 +52,6 @@ export const logout = (req, res) => {
     //Delete Cookie on logout
     res.clearCookie("accessToken",{
         secure: true,
-        sameSite: "none", //Because our backend port is different to our frontend port
+        sameSite: "none", //Because backend port is different to frontend port
     }).status(200).json("Nutzer erfolgreich abgemeldet!");
 }
