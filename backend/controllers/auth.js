@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const register = (req, res) => {
-    const q = "SELECT * FROM users WHERE username = ?";
+    const q = "SELECT * FROM users WHERE username = ? OR email = ?";
 
-    db.query(q, [req.body.username], (err, data) => {
+    db.query(q, [req.body.username, req.body.email], (err, data) => {
         //Check if there is an error or the user already exists
         if (err) return res.status(500).json(err)
         if (data.length) return res.status(409).json("Der Benutzer existiert bereits!");
@@ -14,7 +14,7 @@ export const register = (req, res) => {
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
-        const q = "INSERT INTO users (`username`, `email`, `password`) VALUE (?)";
+        const q = "INSERT INTO users (`username`, `email`, `password`) VALUES (?)";
 
         const values = [req.body.username, req.body.email, hashedPassword];
 

@@ -1,8 +1,9 @@
 import express from "express";
-import { } from "../controllers/workout.js";
+import { getWorkouts, postWorkout } from "../controllers/workout.js";
 
 const router = express.Router()
 
-router.get("",)
+router.get("/", getWorkouts);
+router.post("/", postWorkout);
 
 export default router;
