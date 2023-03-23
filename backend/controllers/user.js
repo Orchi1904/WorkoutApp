@@ -21,7 +21,6 @@ export const updateUser = (req, res) => {
     jwt.verify(token, "verysecretkey", (err, user) => {
         if (err) return res.status(403).json("Der Token ist nicht gültig!");
 
-
         const q = "UPDATE users SET `avatar` = ? WHERE id = ?";
 
         db.query(q,

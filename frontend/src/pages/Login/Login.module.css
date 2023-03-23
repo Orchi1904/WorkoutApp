@@ -1,0 +1,64 @@
+*{
+    box-sizing: border-box;
+}
+
+.login{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    width: 70%;
+    min-height: 220px;
+    max-height: 50%;
+    background-color: #121212;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.loginHeader > h4{
+    color: white;
+}
+
+.loginForm, .loginInputContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.register{
+    width: 80%;
+    color: white;
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.registerBtn{
+    color: #4e94f3;
+    cursor: pointer;
+    transition: color 0.2s ease-out;
+}
+
+.registerBtn:hover{
+    color: #2f69c8;
+}
+
+@media screen and (min-width: 1024px){
+    .login{
+        max-width: 40%;
+    }
+}
+
+@media screen and (min-height: 750px){
+    .register{
+        margin-top: 20px;
+    }
+}

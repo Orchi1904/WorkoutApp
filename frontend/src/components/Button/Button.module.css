@@ -1,0 +1,28 @@
+button{
+    margin-top: 10px;
+    width: 80%;
+    height: 40px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #4e94f3;
+    color: white;
+    transition: background-color 0.2s ease-out;
+}
+
+button:hover{
+    background-color: #2f69c8;
+}
+
+@media screen and (min-width: 1024px){
+    .button{
+        width: 60%;
+    }
+}
+
+@media screen and (min-height: 750px){
+    .button{
+        margin-top: 20px;
+    }
+}

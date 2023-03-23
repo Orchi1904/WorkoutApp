@@ -30,7 +30,7 @@ export const login = (req, res) => {
 
     db.query(q, [req.body.username], (err, data) => {
         if (err) return res.status(500).json(err);
-        if (data.length === 0) return res.status(404).json("Diesen Nutzer gibt es nicht!");
+        if (data.length === 0) return res.status(404).json("Benutzername oder Passwort falsch!");
 
         const passwordIsRight = bcrypt.compareSync(req.body.password, data[0].password);
 

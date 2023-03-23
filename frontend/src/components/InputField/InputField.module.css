@@ -1,0 +1,22 @@
+.field{
+    width: 80%;
+    height: 40px;
+    margin-top: 10px;
+    border: none;
+    padding: 5px 10px;
+    background-color: #252525;
+    border-radius: 5px;
+    color: white;
+}
+
+@media screen and (min-width: 1024px){
+    .field{
+        width: 60%;
+    }
+}
+
+@media screen and (min-height: 750px){
+    .field {
+        margin-top: 20px;
+    }
+}
