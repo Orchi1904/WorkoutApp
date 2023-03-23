@@ -19,3 +19,23 @@ export const getExercises = (req, res) => {
         return res.status(200).json(exercises);
     });
 }
+
+export const updateExercise = (req, res) => {
+    const q = "UPDATE exercises SET `name`= ?, `numberOfSets` = ?, `repsPerSet` = ?, `weight` = ? WHERE id = ?"
+
+    db.query(q, 
+    [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight, req.body.id], 
+    (err, data) => {
+        if(err) return res.status(500).json(err);
+        return res.status(200).json("Übung erfolgreich verändert!");
+    })
+}
+
+export const deleteExercise = (req, res) => {
+    const q = "DELETE FROM exercises WHERE id = ?";
+
+    db.query(q, [req.body.id], (err, data) => {
+        if(err) return res.status(500).json(err);
+        return res.status(200).json("Übung erfolgreich gelöscht!");
+    })
+}
