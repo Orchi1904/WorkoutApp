@@ -25,7 +25,7 @@ function Register() {
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
       await login(inputs);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       alert(err.response.data);
     }
