@@ -1,6 +1,10 @@
+*{
+    box-sizing: border-box;
+}
+
 .workoutPlan{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     color: white;
     width: 80%;
@@ -11,10 +15,21 @@
     font-weight: bold;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.6);
     transition: background-color 0.2s ease-out;
+    padding: 5px 20px;
+}
+
+.workoutPlan p{
+    word-break: break-all;
+    margin-right: 5px;
 }
 
 .workoutPlan:hover{
     background-color: #1779ba;
+}
+
+.workoutPlanIcons{
+    display: flex;
+    flex-direction: row;
 }
 
 @media screen and (min-height: 800px){

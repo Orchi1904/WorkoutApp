@@ -1,0 +1,20 @@
+.workoutPlanPopup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.workoutPlanPopup > button{
+    width: 50%;
+}
+
+.workoutPlanPopupHead{
+    width: 100%;
+    display: flex;
+}
+
+.workoutPlanPopupHead > h2{
+    color: white;
+    text-align: center;
+    flex-grow: 1;
+}

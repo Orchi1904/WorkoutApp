@@ -10,6 +10,10 @@ export const register = (req, res) => {
         if (err) return res.status(500).json(err)
         if (data.length) return res.status(409).json("Der Benutzer existiert bereits!");
 
+        //Check if password and repPassword are the same
+        if(req.body.password !== req.body.repPassword)
+        return res.status(500).json("Die Passwörter stimmen nicht überein!");
+
         //Hash password of new user
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = bcrypt.hashSync(req.body.password, salt);

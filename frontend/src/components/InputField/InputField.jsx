@@ -1,12 +1,13 @@
 import React from 'react';
 import styles from './InputField.module.css';
 
-function InputField({id, labelText, type, name, onChange, placeholder}) {
+function InputField({id, labelText, type, name, onChange, placeholder, value}) {
     return (
         <>
             <label htmlFor={id} hidden> {labelText} </label>
             <input id={id} className={styles.field}
                 type={type} name={name} onChange={onChange} placeholder={placeholder}
+                value={value}
             />
         </>
     )
