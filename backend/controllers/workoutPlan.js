@@ -69,7 +69,7 @@ export const deleteWorkoutPlan = (req, res) => {
 
         const q = "DELETE FROM workout_plans WHERE id = ?";
 
-        db.query(q, [req.body.id], (err, data) => {
+        db.query(q, [req.params.id], (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("Trainingsplan erfolgreich gelöscht!");
         })

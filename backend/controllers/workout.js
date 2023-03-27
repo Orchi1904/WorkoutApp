@@ -15,7 +15,7 @@ export const getWorkouts = (req, res) => {
     const q = "SELECT * from workouts WHERE workout_planId = ?";
 
     //Query because planId will be given in URL
-    db.query(q, req.query.workout_planId, (err, workouts) => {
+    db.query(q, req.params.workout_planId, (err, workouts) => {
         if(err) return res.status(500).json(err);
         return res.status(200).json(workouts);
     })

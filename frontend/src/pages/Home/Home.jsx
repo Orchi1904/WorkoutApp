@@ -1,36 +1,41 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState } from 'react';
 import './Home.css';
 import background from '../../assets/background.svg';
 import Button from '../../components/Button/Button';
-import axios from 'axios';
 import { makeRequest } from '../../request';
 import { useAuth } from '../../context/AuthContext';
 import WorkoutPlan from '../../components/WorkoutPlan/WorkoutPlan';
 import Popup from 'reactjs-popup';
-import InputField from '../../components/InputField/InputField';
 import 'reactjs-popup/dist/index.css';
-import CloseIcon from '@mui/icons-material/Close';
 import {
   useQuery,
   useMutation,
   useQueryClient,
 } from 'react-query'
-import IconButton from '../../components/IconButton/IconButton';
 import WorkoutPlanPopup from '../../components/WorkoutPlanPopup/WorkoutPlanPopup';
+import DeletePopup from '../../components/DeletePopup/DeletePopup';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const { user, login, logout } = useAuth();
   const [workoutPlanName, setWorkoutPlanName] = useState("");
+  const [updateWorkoutPlan, setUpdateWorkoutPlan] = useState({ name: "", id: null });
+  const [updateWorkoutPlanOpen, setUpdateWorkoutPlanOpen] = useState(false);
+  const [deleteWorkoutPlan, setDeleteWorkoutPlan] = useState({ name: "", id: null });
+  const [deleteWorkoutPlanOpen, setDeleteWorkoutPlanOpen] = useState(false);
 
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const { isLoading, error, data } = useQuery(["workoutPlans"], () =>
-    makeRequest.get("/workoutPlans", user.id).then((res) => {
+    makeRequest.get("/workoutPlans").then((res) => {
       return res.data;
     }));
 
-  const mutation = useMutation((workoutPlanName) => {
-    return makeRequest.post("/workoutPlans", workoutPlanName)
+  const postMutation = useMutation((workoutPlan) => {
+    return makeRequest.post("/workoutPlans", workoutPlan);
   },
     {
       //refetch workoutPlans on success
@@ -40,12 +45,56 @@ function Home() {
     }
   )
 
-  const handleNewWorkoutPlan = (e, closePopup) => {
-    e.preventDefault();
-    mutation.mutate({name: workoutPlanName});
+  const updateMutation = useMutation((updateWorkoutPlan) => {
+    return makeRequest.put("/workoutPlans", updateWorkoutPlan);
+  },
+    {
+      //refetch workoutPlans on success
+      onSuccess: () => {
+        queryClient.invalidateQueries("workoutPlans");
+      }
+    }
+  )
+
+  const deleteMutation = useMutation((deleteWorkoutPlan) => {
+    return makeRequest.delete("/workoutPlans/" + deleteWorkoutPlan.id);
+  },
+    {
+      //refetch workoutPlans on success
+      onSuccess: () => {
+        queryClient.invalidateQueries("workoutPlans");
+      }
+    }
+  )
+
+  const handleNewWorkoutPlan = (closePopup) => {
+    postMutation.mutate({ name: workoutPlanName });
     closePopup();
   }
 
+  const handleUpdateWorkoutPlan = (closePopup) => {
+    updateMutation.mutate(updateWorkoutPlan);
+    closePopup();
+  }
+
+  const handleDeleteWorkoutPlan = (closePopup) => {
+    deleteMutation.mutate({ id: deleteWorkoutPlan.id });
+    closePopup();
+  }
+
+  const handleEditClick = (name, id) => {
+    setUpdateWorkoutPlanOpen(true);
+    setUpdateWorkoutPlan({ name, id });
+  }
+
+  const handleWorkoutPlanNameChange = (newName) => {
+    setUpdateWorkoutPlan({ ...updateWorkoutPlan, name: newName });
+  }
+
+  const handleDeleteClick = (name, id) => {
+    setDeleteWorkoutPlanOpen(true);
+    setDeleteWorkoutPlan({ name, id });
+  }
 
   return (
     <div className="home">
@@ -57,10 +106,33 @@ function Home() {
           position="center" modal>
           {/*close from reactjs-popup*/}
           {close => (
-            <WorkoutPlanPopup title="Trainingsplan erstellen" close={close} 
-                              inputPlaceholder="Name des Trainingsplans" onInputChange={setWorkoutPlanName} 
-                              btnText="Erstellen" onBtnClick={handleNewWorkoutPlan}/>
+            <WorkoutPlanPopup title="Trainingsplan erstellen" close={close}
+              inputPlaceholder="Name des Trainingsplans" onInputChange={setWorkoutPlanName}
+              btnText="Erstellen" onBtnClick={handleNewWorkoutPlan} />
           )}
+        </Popup>
+
+        {/*Update WorkoutPlan popup*/}
+        <Popup open={updateWorkoutPlanOpen}
+          position="center"
+          onClose={() => setUpdateWorkoutPlanOpen(false)}
+          modal>
+          <WorkoutPlanPopup title="Trainingsplan bearbeiten" close={() => setUpdateWorkoutPlanOpen(false)}
+            inputPlaceholder="Name des Trainingsplans" onInputChange={handleWorkoutPlanNameChange}
+            btnText="Speichern" onBtnClick={handleUpdateWorkoutPlan} value={updateWorkoutPlan.name} />
+        </Popup>
+
+        {/*Delete WorkoutPlan popup*/}
+        <Popup open={deleteWorkoutPlanOpen}
+          position="center"
+          onClose={() => setDeleteWorkoutPlanOpen(false)}
+          modal>
+          <DeletePopup close={() => setDeleteWorkoutPlanOpen(false)}
+            itemName={deleteWorkoutPlan.name}
+            confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
+            onCancel={setDeleteWorkoutPlanOpen}
+            onConfirm={handleDeleteWorkoutPlan}
+          />
         </Popup>
 
         {
@@ -75,7 +147,11 @@ function Home() {
             <div className="homeWorkoutPlanContainer">
               {data?.length &&
                 data.map((workoutPlan) => (
-                  <WorkoutPlan key={workoutPlan.id} name={workoutPlan.name} />
+                  <WorkoutPlan key={workoutPlan.id} name={workoutPlan.name}
+                    onWorkoutPlanClick={() => navigate(`/workoutPlans/${workoutPlan.id}/workouts`)}
+                    onEditClick={() => handleEditClick(workoutPlan.name, workoutPlan.id)}
+                    onDeleteClick={() => handleDeleteClick(workoutPlan.name, workoutPlan.id)}
+                  />
                 ))}
             </div>
         }

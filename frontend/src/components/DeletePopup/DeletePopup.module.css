@@ -1,0 +1,30 @@
+.deletePopup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.deletePopup > p{
+    color: white;
+}
+
+.deletePopupHead{
+    width: 100%;
+    display: flex;
+}
+
+.deletePopupHead > h2{
+    color: white;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.buttons > button{
+    width: fit-content;
+}

@@ -4,7 +4,7 @@ import { postWorkout, getWorkouts, updateWorkout, deleteWorkout } from "../contr
 const router = express.Router()
 
 router.post("/", postWorkout);
-router.get("/", getWorkouts);
+router.get("/:workout_planId", getWorkouts);
 router.put("/", updateWorkout);
 router.delete("/", deleteWorkout);
 
