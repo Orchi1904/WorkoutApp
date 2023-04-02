@@ -4,14 +4,14 @@ import styles from './DeletePopup.module.css';
 import Button from '../Button/Button';
 import CloseIcon from '@mui/icons-material/Close';
 
-function DeletePopup({ title, close, itemName, confirmBtnText, cancelBtnText, onConfirm, onCancel }) {
+function DeletePopup({ title, close, text, confirmBtnText, cancelBtnText, onConfirm, onCancel }) {
     return (
         <div className={styles.deletePopup}>
             <div className={styles.deletePopupHead}>
                 <h2>{title}</h2>
                 <IconButton onClick={close} iconColor="white" hoverColor="#2f69c8"><CloseIcon /></IconButton>
             </div>
-            <p>Trainingsplan "{itemName}" endgültig löschen?</p>
+            <p>{text}</p>
             <div className={styles.buttons}>
                 <Button text={confirmBtnText} onClick={() => onConfirm(close)} 
                         hoverColor="#2c703e"/>

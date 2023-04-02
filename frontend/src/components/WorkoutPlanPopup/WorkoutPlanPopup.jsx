@@ -1,21 +1,32 @@
 import React from 'react';
-import IconButton from '../IconButton/IconButton';
-import InputField from '../InputField/InputField';
-import styles from './WorkoutPlanPopup.module.css';
-import Button from '../Button/Button';
+import Popup from 'reactjs-popup';
+import Button from '../../components/Button/Button';
+import IconButton from '../../components/IconButton/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import InputField from '../../components/InputField/InputField';
+import styles from './WorkoutPlanPopup.module.css';
 
-function WorkoutPlanPopup({title, close, inputPlaceholder, onInputChange, btnText, onBtnClick, value}) {
+function WorkoutPlanPopup({ title, isOpen, onClose, onSubmit, workoutPlan, setWorkoutPlan }) {
+
     return (
-        <div className={styles.workoutPlanPopup}>
-            <div className={styles.workoutPlanPopupHead}>
-                <h2>{title}</h2>
-                <IconButton onClick={close} iconColor="white" hoverColor="#2f69c8"><CloseIcon /></IconButton>
+        <Popup position="center" modal open={isOpen} onClose={onClose}>
+            <div className={styles.workoutPlanPopup}>
+                <div className={styles.workoutPlanPopupHead}>
+                    <h2>{title}</h2>
+                    <IconButton onClick={onClose} iconColor="white" hoverColor="#2f69c8">
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+                <div className={styles.inputFieldContainer}>
+                    <InputField id="workoutPlanName" placeholder="Name des Trainingsplans"
+                        onChange={(e) => setWorkoutPlan({ ...workoutPlan, name: e.target.value })}
+                        value={workoutPlan.name} />
+                </div>
+                <div className={styles.workoutPlanPopupButton}>
+                    <Button text="Speichern" onClick={onSubmit} />
+                </div>
             </div>
-            <InputField placeholder={inputPlaceholder} onChange={(e) => onInputChange(e.target.value)} 
-                        value={value}/>
-            <Button text={btnText} onClick={() => onBtnClick(close)} />
-        </div>
+        </Popup>
     )
 }
 

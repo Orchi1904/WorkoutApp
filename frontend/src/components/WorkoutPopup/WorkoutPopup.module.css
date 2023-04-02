@@ -1,0 +1,53 @@
+*{
+    box-sizing: border-box;
+}
+
+.workoutPopupHead{
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.workoutPopupHead > h2{
+    text-align: center;
+    flex: 1;
+}
+
+.weekdaysSelectorContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.weekdaysSelector{
+    color: white;
+    background-color: #252525;
+    border-radius: 5px;
+    width: 80%;
+    padding: 10px 5px;
+}
+
+.workoutPopupButton {
+    display: flex;
+    justify-content: center;
+}
+
+.workoutPopupButton > button{
+    width: 80%;
+}
+
+@media screen and (min-width: 1024px){
+    .weekdaysSelector{
+        width: 50%;
+    }
+
+    .workoutPopupButton > button{
+        width: 50%;
+    }
+}
+
+@media screen and (min-height: 750px){
+    .weekdaysSelector{
+        margin-top: 20px;
+    }
+}

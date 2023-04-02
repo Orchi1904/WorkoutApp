@@ -2,13 +2,13 @@
     box-sizing: border-box;
 }
 
-.workoutPlan{
+.displayContainer{
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
     width: 80%;
-    height: 50px;
+    height: fit-content;
     background-color: #121212;
     cursor: pointer;
     border-radius: 10px;
@@ -16,24 +16,26 @@
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.6);
     transition: background-color 0.2s ease-out;
     padding: 5px 20px;
+    margin-top: 10px;
 }
 
-.workoutPlan p{
+.textContainer {
     word-break: break-all;
     margin-right: 5px;
+    padding: 10px 0px;
 }
 
-.workoutPlan:hover{
+.displayContainer:hover{
     background-color: #1779ba;
 }
 
-.workoutPlanIcons{
+.displayContainerIcons{
     display: flex;
     flex-direction: row;
 }
 
 @media screen and (min-height: 800px){
-    .workoutPlan{
-        height: 100px;
+    .textContainer{
+        padding: 20px 0px;
     }
 }

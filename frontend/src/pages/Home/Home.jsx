@@ -4,7 +4,7 @@ import background from '../../assets/background.svg';
 import Button from '../../components/Button/Button';
 import { makeRequest } from '../../request';
 import { useAuth } from '../../context/AuthContext';
-import WorkoutPlan from '../../components/WorkoutPlan/WorkoutPlan';
+import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import {
@@ -20,11 +20,12 @@ import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const { user, login, logout } = useAuth();
-  const [workoutPlanName, setWorkoutPlanName] = useState("");
+  const [createWorkoutPlan, setCreateWorkoutPlan] = useState({ name: "", id: null });
   const [updateWorkoutPlan, setUpdateWorkoutPlan] = useState({ name: "", id: null });
-  const [updateWorkoutPlanOpen, setUpdateWorkoutPlanOpen] = useState(false);
   const [deleteWorkoutPlan, setDeleteWorkoutPlan] = useState({ name: "", id: null });
+  const [updateWorkoutPlanOpen, setUpdateWorkoutPlanOpen] = useState(false);
   const [deleteWorkoutPlanOpen, setDeleteWorkoutPlanOpen] = useState(false);
+  const [createWorkoutPlanOpen, setCreateWorkoutPlanOpen] = useState(false);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -57,7 +58,7 @@ function Home() {
   )
 
   const deleteMutation = useMutation((deleteWorkoutPlan) => {
-    return makeRequest.delete("/workoutPlans/" + deleteWorkoutPlan.id);
+    return makeRequest.delete(`/workoutPlans/${deleteWorkoutPlan.id}`);
   },
     {
       //refetch workoutPlans on success
@@ -67,14 +68,15 @@ function Home() {
     }
   )
 
-  const handleNewWorkoutPlan = (closePopup) => {
-    postMutation.mutate({ name: workoutPlanName });
-    closePopup();
+  const handleNewWorkoutPlan = () => {
+    postMutation.mutate({ name: createWorkoutPlan.name });
+    setCreateWorkoutPlan({ name: "", id: null });
+    setCreateWorkoutPlanOpen(false);
   }
 
-  const handleUpdateWorkoutPlan = (closePopup) => {
+  const handleUpdateWorkoutPlan = () => {
     updateMutation.mutate(updateWorkoutPlan);
-    closePopup();
+    setUpdateWorkoutPlanOpen(false);
   }
 
   const handleDeleteWorkoutPlan = (closePopup) => {
@@ -87,10 +89,6 @@ function Home() {
     setUpdateWorkoutPlan({ name, id });
   }
 
-  const handleWorkoutPlanNameChange = (newName) => {
-    setUpdateWorkoutPlan({ ...updateWorkoutPlan, name: newName });
-  }
-
   const handleDeleteClick = (name, id) => {
     setDeleteWorkoutPlanOpen(true);
     setDeleteWorkoutPlan({ name, id });
@@ -100,27 +98,19 @@ function Home() {
     <div className="home">
       <div className="homeContainer">
         <h1 className="homeTitle">Meine Trainingspläne</h1>
+        <Button text="+" onClick={() => setCreateWorkoutPlanOpen(true)} />
 
-        {/*Create WorkoutPlan popup*/}
-        <Popup trigger={<Button text="+" />}
-          position="center" modal>
-          {/*close from reactjs-popup*/}
-          {close => (
-            <WorkoutPlanPopup title="Trainingsplan erstellen" close={close}
-              inputPlaceholder="Name des Trainingsplans" onInputChange={setWorkoutPlanName}
-              btnText="Erstellen" onBtnClick={handleNewWorkoutPlan} />
-          )}
-        </Popup>
+        {/*Create Workout plan popup*/}
+        <WorkoutPlanPopup isOpen={createWorkoutPlanOpen} title="Trainingsplan erstellen"
+          workoutPlan={createWorkoutPlan} setWorkoutPlan={setCreateWorkoutPlan}
+          onSubmit={handleNewWorkoutPlan} onClose={() => setCreateWorkoutPlanOpen(false)}
+        />
 
-        {/*Update WorkoutPlan popup*/}
-        <Popup open={updateWorkoutPlanOpen}
-          position="center"
-          onClose={() => setUpdateWorkoutPlanOpen(false)}
-          modal>
-          <WorkoutPlanPopup title="Trainingsplan bearbeiten" close={() => setUpdateWorkoutPlanOpen(false)}
-            inputPlaceholder="Name des Trainingsplans" onInputChange={handleWorkoutPlanNameChange}
-            btnText="Speichern" onBtnClick={handleUpdateWorkoutPlan} value={updateWorkoutPlan.name} />
-        </Popup>
+        {/*Update Workout plan popup*/}
+        <WorkoutPlanPopup isOpen={updateWorkoutPlanOpen} title="Trainingsplan bearbeiten"
+          workoutPlan={updateWorkoutPlan} setWorkoutPlan={setUpdateWorkoutPlan}
+          onSubmit={handleUpdateWorkoutPlan} onClose={() => setUpdateWorkoutPlanOpen(false)}
+        />
 
         {/*Delete WorkoutPlan popup*/}
         <Popup open={deleteWorkoutPlanOpen}
@@ -128,7 +118,7 @@ function Home() {
           onClose={() => setDeleteWorkoutPlanOpen(false)}
           modal>
           <DeletePopup close={() => setDeleteWorkoutPlanOpen(false)}
-            itemName={deleteWorkoutPlan.name}
+            text={`Trainingsplan "${deleteWorkoutPlan.name}" endgültig löschen?`}
             confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
             onCancel={setDeleteWorkoutPlanOpen}
             onConfirm={handleDeleteWorkoutPlan}
@@ -138,7 +128,7 @@ function Home() {
         {
           !data?.length && !isLoading ?
             <div className="homeEmptyContainer">
-              <img className="backgroundImg" src={background} alt="" />
+              <img className="backgroundImg" src={background} alt="Empty workout plans image" />
               <p className="homeHint">
                 Ziemlich leer hier... Füge doch einfach einen neuen Trainingsplan hinzu!
               </p>
@@ -147,8 +137,8 @@ function Home() {
             <div className="homeWorkoutPlanContainer">
               {data?.length &&
                 data.map((workoutPlan) => (
-                  <WorkoutPlan key={workoutPlan.id} name={workoutPlan.name}
-                    onWorkoutPlanClick={() => navigate(`/workoutPlans/${workoutPlan.id}/workouts`)}
+                  <DisplayContainer key={workoutPlan.id} textArr={[workoutPlan.name]}
+                    onContainerClick={() => navigate(`/workoutPlans/${workoutPlan.id}/workouts`)}
                     onEditClick={() => handleEditClick(workoutPlan.name, workoutPlan.id)}
                     onDeleteClick={() => handleDeleteClick(workoutPlan.name, workoutPlan.id)}
                   />

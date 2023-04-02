@@ -6,6 +6,6 @@ const router = express.Router()
 router.post("/", postWorkout);
 router.get("/:workout_planId", getWorkouts);
 router.put("/", updateWorkout);
-router.delete("/", deleteWorkout);
+router.delete("/:id", deleteWorkout);
 
 export default router;
