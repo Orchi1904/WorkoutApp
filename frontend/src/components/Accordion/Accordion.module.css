@@ -1,0 +1,51 @@
+.accordion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.accordionHead{
+    width: 80%;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: border-radius 0.3s ease-in;
+    background-color: #121212;
+    color: white;
+}
+
+.accordionHead > span{
+    margin-left: 10px;
+}
+
+.accordionHeadOpened{
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.accordionHeadOpened > .chevronIcon{
+    transform: rotate(90deg);
+}
+
+.toggleContainer{
+    opacity: 0;
+    visibility: hidden;
+    transition:
+    height 0.2s ease-in;
+    width: 80%;
+    padding: 5px;
+    background-color: #121212;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.animated{
+    opacity: 1;
+    visibility: visible;
+    transition:
+    height 0.2s ease-in,
+    opacity 0.4s ease-in;
+}

@@ -5,6 +5,7 @@ import { makeRequest } from '../../request';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import background from '../../assets/background.svg';
+import Accordion from '../../components/Accordion/Accordion';
 
 
 function Exercises() {
@@ -37,7 +38,7 @@ function Exercises() {
                     {data?.length &&
                         data.map((exercise) => (
                             <div>
-                                {exercise.name}
+                                <Accordion key={exercise.id} data={exercise}/>
                             </div>
                         ))
                     }
