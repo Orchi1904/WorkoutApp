@@ -14,13 +14,13 @@
     text-align: center;
 }
 
-.workoutHeader{
+.workoutsHeader{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.workoutHeader > button{
+.workoutsHeader > button{
     border-radius: 100%;
     padding: 5px 15px;
     height: fit-content;
@@ -49,6 +49,11 @@
     font-weight: bold;
     margin-top: 20px;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.6);
+}
+
+.currentWorkoutDay{
+    background-color: #F7C66D;
+    color: #121212;
 }
 
 .noWorkoutsContainer{

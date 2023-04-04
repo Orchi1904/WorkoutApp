@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import Workouts from './pages/Workouts/Workouts';
+import Exercises from './pages/Exercises/Exercises';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,11 @@ function App() {
         <Route path="/workoutPlans/:workout_planId/workouts" element={
           <PrivateRoute >
             <Workouts />
+          </PrivateRoute>
+        } />
+        <Route path="/workoutPlans/:workout_planId/workouts/:workoutId/exercises" element={
+          <PrivateRoute >
+            <Exercises />
           </PrivateRoute>
         } />
 

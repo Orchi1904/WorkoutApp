@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Workouts.module.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
     useQuery,
     useMutation,
@@ -25,12 +25,21 @@ function Workouts() {
     const [updateWorkoutOpen, setUpdateWorkoutOpen] = useState(false);
     const [deleteWorkoutOpen, setDeleteWorkoutOpen] = useState(false);
     const [createWorkoutOpen, setCreateWorkoutOpen] = useState(false);
+    const [currentDay, setCurrentDay] = useState("");
 
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        //Another weekdaysArr so I dont have to start with Sunday on my Website
+        const weekdaysArrEnglishOrder = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+        const today = new Date();
+        const dayOfWeek = today.getDay();
+        setCurrentDay(weekdaysArrEnglishOrder[dayOfWeek]);
+    })
 
     const { isLoading, error, data } = useQuery(["workouts"], () =>
         makeRequest.get("/workouts/" + workout_planId).then((res) => {
-            console.log(res.data);
             return res.data;
         }));
 
@@ -98,45 +107,45 @@ function Workouts() {
 
     return (
         <div className={styles.workouts}>
-            <div className={styles.workoutHeader}>
+            <div className={styles.workoutsHeader}>
                 <h1 className={styles.workoutsTitle}>Meine Workouts</h1>
 
                 <Button text="+" onClick={() => setCreateWorkoutOpen(true)} />
-
-                {/*Create Workout popup*/}
-                <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
-                    weekdaysArr={weekdaysArr} workout={createWorkout}
-                    setWorkout={setCreateWorkout} onSubmit={() => handleNewWorkout()}
-                    onClose={() => setCreateWorkoutOpen(false)}
-                />
-
-                {/*Update Workout popup*/}
-                <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
-                    weekdaysArr={weekdaysArr} workout={updateWorkout}
-                    setWorkout={setUpdateWorkout} onSubmit={() => handleUpdateWorkout()}
-                    onClose={() => setUpdateWorkoutOpen(false)}
-                />
-
-                {/*Delete Workout popup*/}
-                <Popup open={deleteWorkoutOpen}
-                    position="center"
-                    onClose={() => setDeleteWorkoutOpen(false)}
-                    modal>
-                    <DeletePopup close={() => setDeleteWorkoutOpen(false)}
-                        text={`Workout "${deleteWorkout.name}" endgültig löschen?`}
-                        confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
-                        onCancel={setDeleteWorkoutOpen}
-                        onConfirm={handleDeleteWorkout}
-                    />
-                </Popup>
             </div>
+
+            {/*Create Workout popup*/}
+            <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
+                weekdaysArr={weekdaysArr} workout={createWorkout}
+                setWorkout={setCreateWorkout} onSubmit={() => handleNewWorkout()}
+                onClose={() => setCreateWorkoutOpen(false)}
+            />
+
+            {/*Update Workout popup*/}
+            <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
+                weekdaysArr={weekdaysArr} workout={updateWorkout}
+                setWorkout={setUpdateWorkout} onSubmit={() => handleUpdateWorkout()}
+                onClose={() => setUpdateWorkoutOpen(false)}
+            />
+
+            {/*Delete Workout popup*/}
+            <Popup open={deleteWorkoutOpen}
+                position="center"
+                onClose={() => setDeleteWorkoutOpen(false)}
+                modal>
+                <DeletePopup close={() => setDeleteWorkoutOpen(false)}
+                    text={`Workout "${deleteWorkout.name}" endgültig löschen?`}
+                    confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
+                    onCancel={setDeleteWorkoutOpen}
+                    onConfirm={handleDeleteWorkout}
+                />
+            </Popup>
 
             {
                 weekdaysArr.map((weekday, index) => {
                     const filteredWorkouts = data?.filter((workout) => workout.weekday === weekday) || [];
                     return (
                         <div className={styles.resultContainer} key={index}>
-                            <div className={styles.workoutDays}>
+                            <div className={`${styles.workoutDays} ${currentDay === weekday && styles.currentWorkoutDay}`}>
                                 {weekday}
                             </div>
                             {!filteredWorkouts.length ?
@@ -155,6 +164,8 @@ function Workouts() {
                                             <DisplayContainer key={workout.id} textArr={[workout.name, workout.duration + " min"]}
                                                 onDeleteClick={() => handleDeleteClick(workout.name, workout.id)}
                                                 onEditClick={() => handleEditClick(workout.name, workout.weekday, workout.duration, workout.id)}
+                                                onContainerClick={() =>
+                                                    navigate(`/workoutPlans/${workout_planId}/workouts/${workout.id}/exercises`)}
                                             />
                                         )
                                     })}
