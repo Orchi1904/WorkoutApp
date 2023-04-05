@@ -35,13 +35,13 @@ function Exercises() {
                 </div>
                 :
                 <div className={styles.exercisesContainer}>
-                    {data?.length &&
-                        data.map((exercise) => (
-                            <div>
-                                <Accordion key={exercise.id} data={exercise}/>
-                            </div>
-                        ))
-                    }
+                    <div className={styles.accordionContainer}>
+                        {data?.length &&
+                            data.map((exercise) => (
+                                <Accordion key={exercise.id} data={exercise} />
+                            ))
+                        }
+                    </div>
                 </div>
             }
         </div>

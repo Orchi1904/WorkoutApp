@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 .accordion{
     display: flex;
     flex-direction: column;
@@ -15,10 +19,13 @@
     transition: border-radius 0.3s ease-in;
     background-color: #121212;
     color: white;
+    padding: 10px 5px;
 }
 
 .accordionHead > span{
     margin-left: 10px;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .accordionHeadOpened{
@@ -37,9 +44,10 @@
     height 0.2s ease-in;
     width: 80%;
     padding: 5px;
-    background-color: #121212;
+    background-color: #1c1c1c;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
+    padding: 20px;
 }
 
 .animated{
@@ -48,4 +56,43 @@
     transition:
     height 0.2s ease-in,
     opacity 0.4s ease-in;
+}
+
+.toggleContainerTop{
+    display: flex;
+    justify-content: space-between;
+}
+
+.sets, .reps, .weight, .description, .ytVideo{
+    text-align: center;
+    background-color: #252525;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.toggleContainerMid{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.weight{
+    width: fit-content;
+}
+
+.toggleContainerBottom{
+    margin-top: 10px;
+}
+
+.description{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ytVideo{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
