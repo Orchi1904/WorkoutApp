@@ -2,8 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Accordion.module.css';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import YTEmbedded from '../YTEmbedded/YTEmbedded';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import IconButton from '../IconButton/IconButton';
 
-function Accordion({ data }) {
+
+function Accordion({ data, handleEditClick, handleDeleteClick }) {
     const [isOpened, setIsOpened] = useState(false);
     const refContainer = useRef();
 
@@ -17,6 +21,12 @@ function Accordion({ data }) {
                 styles.toggleContainer}
                 style={{ height: isOpened ? "fit-content" : 0 }}
             >
+                <div className={styles.accordionButtons}>
+                    <IconButton onClick={handleEditClick} iconColor="white" hoverColor="#2c703e"
+                        backgroundColor="#252525"><EditIcon /></IconButton>
+                    <IconButton onClick={handleDeleteClick} iconColor="white" hoverColor="#ff6347"
+                        backgroundColor="#252525"><DeleteForeverIcon /></IconButton>
+                </div>
                 <div className={styles.toggleContainerTop}>
                     <div className={styles.sets}>
                         <p>Sätze</p>
@@ -27,12 +37,14 @@ function Accordion({ data }) {
                         <p>{data.repsPerSet}</p>
                     </div>
                 </div>
-                <div className={styles.toggleContainerMid}>
-                    <div className={styles.weight}>
-                        <p>Gewicht</p>
-                        <p>{data.weight + " kg"}</p>
+                {data.weight !== null &&
+                    <div className={styles.toggleContainerMid}>
+                        <div className={styles.weight}>
+                            <p>Gewicht</p>
+                            <p>{data.weight + " kg"}</p>
+                        </div>
                     </div>
-                </div>
+                }
                 <div className={styles.toggleContainerBottom}>
                     {data.description &&
                         <div className={styles.description}>
@@ -40,10 +52,10 @@ function Accordion({ data }) {
                             <p>{data.description}</p>
                         </div>
                     }
-                    {data.ytId && 
+                    {data.ytId &&
                         <div className={styles.ytVideo}>
                             <p>Hilfsvideo</p>
-                            <YTEmbedded ytId={`https://www.youtube.com/embed/${data.ytId}`}/>
+                            <YTEmbedded ytLink={`https://www.youtube.com/embed/${data.ytId}`} />
                         </div>
                     }
                 </div>

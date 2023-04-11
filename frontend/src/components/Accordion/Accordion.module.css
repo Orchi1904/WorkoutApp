@@ -58,6 +58,13 @@
     opacity 0.4s ease-in;
 }
 
+.accordionButtons{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
 .toggleContainerTop{
     display: flex;
     justify-content: space-between;

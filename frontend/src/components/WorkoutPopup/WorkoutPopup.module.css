@@ -13,6 +13,11 @@
     flex: 1;
 }
 
+.workoutPopupContent{
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
 .weekdaysSelectorContainer{
     display: flex;
     justify-content: center;

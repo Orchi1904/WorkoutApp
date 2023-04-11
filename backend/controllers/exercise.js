@@ -3,8 +3,21 @@ import { db } from "../connect.js"
 export const postExercise = (req, res) => {
     const q = "INSERT INTO exercises (`name`, `numberOfSets`, `repsPerSet`, `weight`, `ytId`, `description`, `workoutId`) VALUES (?)";
 
+    const ytLink = req.body.ytLink;
+    const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([a-zA-Z0-9_-]{11})/;
+    const match = ytLink.match(ytRegex);
+    let ytId = "";
+
+    if(match){
+        ytId = match[1];
+    }else{
+        if(ytLink !== ""){
+            return res.status(400).json("Kein gültiger YouTube-Link!");
+        } 
+    }
+
     const values = [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight, 
-                    req.body.ytId, req.body.description, req.body.workoutId];
+                    ytId, req.body.description, req.body.workoutId];
 
     db.query(q, [values], (err, data) => {
         if(err) return res.status(500).json(err);

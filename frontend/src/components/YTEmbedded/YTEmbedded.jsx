@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import LazyLoad from 'react-lazy-load';
 
-function YTEmbedded({ ytId }) {
+function YTEmbedded({ ytLink }) {
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setScreenWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    },[]);
+
+    const width = screenWidth > 1024 ? 700 : "90%";
+
     return (
         <div>
             <LazyLoad height={315}>
                 <iframe
-                    width="560"
+                    width={width}
                     height="315"
-                    src={ytId}
+                    src={ytLink}
                     title="Schau dir dieses Video an!"
                     allowFullScreen
-                    style={{width: "90%", zIndex: 0, border: "none", borderRadius: "10px"}}
+                    style={{zIndex: 0, border: "none", borderRadius: "10px" }}
                 />
             </LazyLoad>
         </div>

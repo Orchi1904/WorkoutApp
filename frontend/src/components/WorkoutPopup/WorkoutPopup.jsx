@@ -17,25 +17,27 @@ function WorkoutPopup({ title, isOpen, onClose, onSubmit, workout, setWorkout, w
                         <CloseIcon />
                     </IconButton>
                 </div>
-                <div className={styles.weekdaysSelectorContainer}>
-                    <label htmlFor="weekdaysSelector" hidden>Wochentag: </label>
-                    <select name="weekdaysSelector" className={styles.weekdaysSelector}
-                        onChange={(e) => setWorkout({...workout, weekday: e.target.value})}
-                        value={workout.weekday}
-                    >
-                        {weekdaysArr.map((weekday) => (
-                            <option key={weekday} value={weekday}>{weekday}</option>
-                        ))}
-                    </select>
-                </div>
-                <InputField id="workoutName" labelText="Name des Workouts"
-                    onChange={(e) => setWorkout({...workout, name: e.target.value})}
-                    value={workout.name} useLabel={true} />
-                <InputField id="workoutDuration" type="number" labelText="Dauer des Workouts (min)"
-                    onChange={(e) => setWorkout({...workout, duration: e.target.value})}
-                    value={workout.duration} useLabel={true} />
-                <div className={styles.workoutPopupButton}>
-                    <Button text="Speichern" onClick={onSubmit} />
+                <div className={styles.workoutPopupContent}>
+                    <div className={styles.weekdaysSelectorContainer}>
+                        <label htmlFor="weekdaysSelector" hidden>Wochentag: </label>
+                        <select name="weekdaysSelector" className={styles.weekdaysSelector}
+                            onChange={(e) => setWorkout({ ...workout, weekday: e.target.value })}
+                            value={workout.weekday}
+                        >
+                            {weekdaysArr.map((weekday) => (
+                                <option key={weekday} value={weekday}>{weekday}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <InputField id="workoutName" labelText="Name des Workouts"
+                        onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
+                        value={workout.name} useLabel={true} />
+                    <InputField id="workoutDuration" type="number" labelText="Dauer des Workouts (min)"
+                        onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
+                        value={workout.duration} useLabel={true} />
+                    <div className={styles.workoutPopupButton}>
+                        <Button text="Speichern" onClick={onSubmit} />
+                    </div>
                 </div>
             </div>
         </Popup>
