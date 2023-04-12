@@ -19,27 +19,29 @@ function WorkoutPopup({ title, isOpen, onClose, onSubmit, exercise, setExercise 
                 </div>
                 <p className={styles.exercisePopupRequired}>* Erforderlich</p>
                 <div className={styles.exercisePopupContent}>
-                    <InputField id="exerciseName" type="text" labelText="Name der Übung *"
-                        onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
-                        value={exercise.name} useLabel={true} />
-                    <InputField id="exerciseSets" type="number" labelText="Anzahl der Sätze *"
-                        onChange={(e) => setExercise({ ...exercise, numberOfSets: e.target.value })}
-                        value={exercise.numberOfSets} useLabel={true} />
-                    <InputField id="exerciseReps" type="number" labelText="Anzahl der Wiederholungen pro Satz *"
-                        onChange={(e) => setExercise({ ...exercise, repsPerSet: e.target.value })}
-                        value={exercise.repsPerSet} useLabel={true} />
-                    <InputField id="exerciseWeight" type="number" labelText="Gewicht in kg"
-                        onChange={(e) => setExercise({ ...exercise, weight: e.target.value })}
-                        value={exercise.weight} useLabel={true} />
-                    <InputField id="exerciseYtLink" type="text" labelText="Link eines YT-Tutorials"
-                        onChange={(e) => setExercise({ ...exercise, ytLink: e.target.value })}
-                        value={exercise.ytLink} useLabel={true} />
-                    <InputField id="exerciseDescription" type="text" labelText="Beschreibung der Übung"
-                        onChange={(e) => setExercise({ ...exercise, description: e.target.value })}
-                        value={exercise.description} useLabel={true} />
-                    <div className={styles.exercisePopupButton}>
-                        <Button text="Speichern" onClick={onSubmit} />
-                    </div>
+                    <form onSubmit={onSubmit}>
+                        <InputField id="exerciseName" type="text" labelText="Name der Übung *"
+                            onChange={(e) => setExercise({ ...exercise, name: e.target.value })}
+                            value={exercise.name} useLabel={true} required={true} />
+                        <InputField id="exerciseSets" type="number" labelText="Anzahl der Sätze *"
+                            onChange={(e) => setExercise({ ...exercise, numberOfSets: e.target.value })}
+                            value={exercise.numberOfSets} useLabel={true} required={true} />
+                        <InputField id="exerciseReps" type="number" labelText="Anzahl der Wiederholungen pro Satz *"
+                            onChange={(e) => setExercise({ ...exercise, repsPerSet: e.target.value })}
+                            value={exercise.repsPerSet} useLabel={true} required={true} />
+                        <InputField id="exerciseWeight" type="number" labelText="Gewicht in kg"
+                            onChange={(e) => setExercise({ ...exercise, weight: e.target.value })}
+                            value={exercise.weight} useLabel={true} />
+                        <InputField id="exerciseYtLink" type="text" labelText="Link eines YT-Tutorials"
+                            onChange={(e) => setExercise({ ...exercise, ytLink: e.target.value })}
+                            value={exercise.ytLink} useLabel={true} />
+                        <InputField id="exerciseDescription" type="text" labelText="Beschreibung der Übung"
+                            onChange={(e) => setExercise({ ...exercise, description: e.target.value })}
+                            value={exercise.description} useLabel={true} />
+                        <div className={styles.exercisePopupButton}>
+                            <Button text="Speichern" type="submit" />
+                        </div>
+                    </form>
                 </div>
             </div>
         </Popup>

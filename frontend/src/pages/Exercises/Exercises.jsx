@@ -7,11 +7,16 @@ import Button from '../../components/Button/Button';
 import background from '../../assets/background.svg';
 import Accordion from '../../components/Accordion/Accordion';
 import ExercisePopup from '../../components/ExercisePopup/ExercisePopup';
+import Popup from 'reactjs-popup';
+import DeletePopup from '../../components/DeletePopup/DeletePopup';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
 
 
 function Exercises() {
     const [createExerciseOpen, setCreateExerciseOpen] = useState(false);
     const [updateExerciseOpen, setUpdateExerciseOpen] = useState(false);
+    const [deleteExerciseOpen, setDeleteExerciseOpen] = useState(false);
     const [createExercise, setCreateExercise] = useState({
         name: "", numberOfSets: null, repsPerSet: null,
         weight: null, ytLink: "", description: "", id: null
@@ -20,6 +25,7 @@ function Exercises() {
         name: "", numberOfSets: null, repsPerSet: null,
         weight: null, ytLink: "", description: "", id: null
     });
+    const [deleteExercise, setDeleteExercise] = useState({ name: "", id: null });
 
     const queryClient = useQueryClient();
     const { workoutId } = useParams();
@@ -35,23 +41,34 @@ function Exercises() {
         return makeRequest.post("/exercises", exercise);
     },
         {
-            //refetch workouts on success
+            //refetch exercises on success
             onSuccess: () => {
                 queryClient.invalidateQueries("exercises");
             },
         }
     );
 
-    /*const updateMutation = useMutation((exercise) => {
+    const updateMutation = useMutation((exercise) => {
         return makeRequest.put("/exercises", exercise);
     },
         {
-            //refetch workouts on success
+            //refetch exercises on success
             onSuccess: () => {
                 queryClient.invalidateQueries("exercises");
             },
         }
-    );*/
+    );
+
+    const deleteMutation = useMutation((exercise) => {
+        return makeRequest.delete(`/exercises/${exercise.id}`)
+    },
+        {
+            //refetch exercises on success
+            onSuccess: () => {
+                queryClient.invalidateQueries("exercises");
+            },
+        }
+    );
 
     const handleNewExercise = () => {
         postMutation.mutate({
@@ -67,21 +84,23 @@ function Exercises() {
     }
 
     const handleUpdateExercise = () => {
-       /* updateMutation.mutate({
-            name: createExercise.name, numberOfSets: createExercise.numberOfSets,
-            repsPerSet: createExercise.repsPerSet, weight: createExercise.weight,
-            ytLink: createExercise.ytLink, description: createExercise.description, workoutId
-        });
-        setCreateExercise({
-            name: "", numberOfSets: null, repsPerSet: null,
-            weight: null, ytLink: "", description: "", id: null
-        });
-        setCreateExerciseOpen(false);*/
+        updateMutation.mutate(updateExercise);
+        setUpdateExerciseOpen(false);
+    }
+
+    const handleDeleteExercise = () => {
+        deleteMutation.mutate(deleteExercise);
+        setDeleteExerciseOpen(false);
     }
 
     const handleEditClick = (name, numberOfSets, repsPerSet, weight, ytLink, description, id) => {
         setUpdateExerciseOpen(true);
-        setUpdateExercise({name, numberOfSets, repsPerSet, weight, ytLink, description, id});
+        setUpdateExercise({ name, numberOfSets, repsPerSet, weight, ytLink, description, id });
+    }
+
+    const handleDeleteClick = (name, id) => {
+        setDeleteExerciseOpen(true);
+        setDeleteExercise({name, id});
     }
 
     return (
@@ -105,6 +124,19 @@ function Exercises() {
                 onClose={() => setUpdateExerciseOpen(false)}
             />
 
+            {/*Delete Exercise popup*/}
+            <Popup open={deleteExerciseOpen}
+                position="center"
+                onClose={() => setDeleteExerciseOpen(false)}
+                modal>
+                <DeletePopup close={() => setDeleteExerciseOpen(false)}
+                    text={`Übung "${deleteExercise.name}" endgültig löschen?`}
+                    confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
+                    onCancel={setDeleteExerciseOpen}
+                    onConfirm={handleDeleteExercise}
+                />
+            </Popup>
+
             {!data?.length && !isLoading ?
                 <div className={styles.exercisesEmptyContainer}>
                     <img className={styles.backgroundImg} src={background} alt="Empty exercises image" />
@@ -117,10 +149,11 @@ function Exercises() {
                     <div className={styles.accordionContainer}>
                         {data?.length &&
                             data.map((exercise) => (
-                                <Accordion key={exercise.id} data={exercise} 
-                                           handleEditClick={() => handleEditClick(exercise.name, exercise.numberOfSets,
-                                                                  exercise.repsPerSet, exercise.weight, exercise.ytId, 
-                                                                  exercise.description, exercise.workoutId)}
+                                <Accordion key={exercise.id} data={exercise}
+                                    handleEditClick={() => handleEditClick(exercise.name, exercise.numberOfSets,
+                                        exercise.repsPerSet, exercise.weight, exercise.ytLink,
+                                        exercise.description, exercise.id)}
+                                    handleDeleteClick={() => handleDeleteClick(exercise.name, exercise.id)}
                                 />
                             ))
                         }

@@ -52,10 +52,10 @@ function Accordion({ data, handleEditClick, handleDeleteClick }) {
                             <p>{data.description}</p>
                         </div>
                     }
-                    {data.ytId &&
+                    {data.ytLink &&
                         <div className={styles.ytVideo}>
                             <p>Hilfsvideo</p>
-                            <YTEmbedded ytLink={`https://www.youtube.com/embed/${data.ytId}`} />
+                            <YTEmbedded ytLink={data.ytLink} />
                         </div>
                     }
                 </div>
