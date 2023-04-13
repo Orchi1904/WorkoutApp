@@ -58,4 +58,5 @@ export const logout = (req, res) => {
         secure: true,
         sameSite: "none", //Because backend port is different to frontend port
     }).status(200).json("Nutzer erfolgreich abgemeldet!");
+    console.log("HI");
 }

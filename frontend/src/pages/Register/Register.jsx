@@ -5,6 +5,7 @@ import styles from './Register.module.css';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
+import Logo from '../../assets/logo.svg';
 
 function Register() {
   const { user, login, logout } = useAuth();
@@ -34,6 +35,7 @@ function Register() {
   return (
     <div className={styles.register}>
       <div className={styles.registerHeader}>
+        <img src={Logo} alt="GymJorney Logo" />
         <h4>GymJourney</h4>
       </div>
       <form className={styles.registerForm}>

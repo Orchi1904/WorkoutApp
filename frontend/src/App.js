@@ -7,12 +7,14 @@ import PrivateRoute from './PrivateRoute';
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import Workouts from './pages/Workouts/Workouts';
 import Exercises from './pages/Exercises/Exercises';
+import InfoBar from './components/InfoBar/InfoBar';
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <InfoBar/>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

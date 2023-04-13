@@ -1,0 +1,47 @@
+.infoBar{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: #B0BEC5;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.leftSide{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.leftSide > img{
+    width: 40px;
+    margin: 5px;
+}
+
+.leftSide > h3{
+    font-size: 12px;
+}
+
+.middle{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.middle > p{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.rightSide{
+    display: flex;
+    align-items: center;
+}
+
+.rightSide > button{
+    cursor: pointer;
+    margin: 5px;
+}

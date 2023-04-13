@@ -10,7 +10,7 @@
     right: 0;
     margin: auto;
     width: 70%;
-    min-height: 320px;
+    min-height: 440px;
     max-height: 50%;
     background-color: #121212;
     border-radius: 10px;
@@ -21,8 +21,21 @@
     padding: 10px;
 }
 
-.registerHeader>h4 {
+.registerHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 80%;
+}
+
+.registerHeader > img{
+    width: 80px;
+}
+
+.registerHeader > h4{
     color: white;
+    font-size: 20px;
 }
 
 .registerForm,

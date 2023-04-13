@@ -4,6 +4,7 @@ import InputField from '../../components/InputField/InputField';
 import { useAuth } from '../../context/AuthContext';
 import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
+import Logo from '../../assets/logo.svg';
 
 function Login() {
     const { user, login, logout } = useAuth();
@@ -31,8 +32,8 @@ function Login() {
     return (
         <div className={styles.login}>
             <div className={styles.loginHeader}>
+                <img src={Logo} alt="GymJorney Logo"/>
                 <h4>GymJourney</h4>
-                
             </div>
             <form className={styles.loginForm}>
                 <div className={styles.loginInputContainer}>
@@ -43,7 +44,7 @@ function Login() {
                     <InputField id="loginPassword" labelText="Passwort: " type="password"
                         name="password" onChange={handleChange} placeholder="Passwort" />
                 </div>
-                <Button onClick={handleLogin} text="Anmelden"/>
+                <Button onClick={handleLogin} text="Anmelden" />
             </form>
             <p className={styles.register}>Neu bei GymJourney?
                 <span className={styles.registerBtn} onClick={() => navigate("/register")}> Jetzt registrieren!</span>
