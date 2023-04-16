@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Workouts.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import {
-    useQuery,
-    useMutation,
-    useQueryClient,
-} from 'react-query'
-import { makeRequest } from '../../request';
+import {useQuery,useQueryClient} from 'react-query';
 import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
@@ -15,6 +10,7 @@ import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import WorkoutPopup from '../../components/WorkoutPopup/WorkoutPopup';
+import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
 
 function Workouts() {
     const weekdaysArr = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
@@ -38,47 +34,20 @@ function Workouts() {
         setCurrentDay(weekdaysArrEnglishOrder[dayOfWeek]);
     })
 
+    const refetch = () => {
+        queryClient.invalidateQueries("workouts");
+    }
+
     const { isLoading, error, data } = useQuery(["workouts"], () =>
-        makeRequest.get("/workouts/" + workout_planId).then((res) => {
-            return res.data;
-        }));
+        getRequest("/workouts/", workout_planId));
 
-    const postMutation = useMutation((workout) => {
-        return makeRequest.post("/workouts", workout);
-    },
-        {
-            //refetch workouts on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("workouts");
-            },
-        }
-    );
-
-    const updateMutation = useMutation((workout) => {
-        return makeRequest.put("/workouts", workout);
-    },
-        {
-            //refetch workouts on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("workouts");
-            },
-        }
-    );
-
-    const deleteMutation = useMutation((deleteWorkout) => {
-        return makeRequest.delete(`/workouts/${deleteWorkout.id}`);
-    },
-        {
-            //refetch workouts on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("workouts");
-            },
-        }
-    );
+    const postMutation = usePostMutation("/workouts", refetch);
+    const updateMutation = useUpdateMutation("/workouts", refetch);
+    const deleteMutation = useDeleteMutation("/workouts/", refetch);
 
     const handleNewWorkout = () => {
         postMutation.mutate({
-            name: createWorkout.name, weekday: createWorkout.weekday,
+            name: createWorkout.name, weekday: createWorkout.weekday || "Montag",
             duration: createWorkout.duration, workout_planId
         });
         setCreateWorkout({ name: "", weekday: "", duration: null, id: null });

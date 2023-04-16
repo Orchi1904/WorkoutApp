@@ -2,24 +2,18 @@ import { React, useState } from 'react';
 import './Home.css';
 import background from '../../assets/background.svg';
 import Button from '../../components/Button/Button';
-import { makeRequest } from '../../request';
-import { useAuth } from '../../context/AuthContext';
 import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-} from 'react-query'
+import { useQuery, useQueryClient, } from 'react-query';
 import WorkoutPlanPopup from '../../components/WorkoutPlanPopup/WorkoutPlanPopup';
 import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from 'react-router-dom';
+import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
 
 function Home() {
-  const { user, login, logout } = useAuth();
   const [createWorkoutPlan, setCreateWorkoutPlan] = useState({ name: "", id: null });
   const [updateWorkoutPlan, setUpdateWorkoutPlan] = useState({ name: "", id: null });
   const [deleteWorkoutPlan, setDeleteWorkoutPlan] = useState({ name: "", id: null });
@@ -30,43 +24,16 @@ function Home() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery(["workoutPlans"], () =>
-    makeRequest.get("/workoutPlans").then((res) => {
-      return res.data;
-    }));
+  const refetch = () => {
+    queryClient.invalidateQueries("workoutPlans");
+  }
 
-  const postMutation = useMutation((workoutPlan) => {
-    return makeRequest.post("/workoutPlans", workoutPlan);
-  },
-    {
-      //refetch workoutPlans on success
-      onSuccess: () => {
-        queryClient.invalidateQueries("workoutPlans");
-      },
-    }
-  )
+  const { isLoading, error, data } = useQuery(["workoutPlans"],
+    () => getRequest("/workoutPlans"));
 
-  const updateMutation = useMutation((updateWorkoutPlan) => {
-    return makeRequest.put("/workoutPlans", updateWorkoutPlan);
-  },
-    {
-      //refetch workoutPlans on success
-      onSuccess: () => {
-        queryClient.invalidateQueries("workoutPlans");
-      }
-    }
-  )
-
-  const deleteMutation = useMutation((deleteWorkoutPlan) => {
-    return makeRequest.delete(`/workoutPlans/${deleteWorkoutPlan.id}`);
-  },
-    {
-      //refetch workoutPlans on success
-      onSuccess: () => {
-        queryClient.invalidateQueries("workoutPlans");
-      }
-    }
-  )
+  const postMutation = usePostMutation("/workoutPlans", refetch);
+  const updateMutation = useUpdateMutation("/workoutPlans", refetch);
+  const deleteMutation = useDeleteMutation("/workoutPlans/", refetch);
 
   const handleNewWorkoutPlan = () => {
     postMutation.mutate({ name: createWorkoutPlan.name });

@@ -5,9 +5,11 @@ import { useAuth } from '../../context/AuthContext';
 import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
 import Logo from '../../assets/logo.svg';
+import AuthService from "../../services/auth.service";
 
 function Login() {
-    const { user, login, logout } = useAuth();
+    //const { user, login, logout } = useAuth();
+    const { login } = AuthService;
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({
         username: "",
@@ -22,8 +24,15 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await login(inputs);
-            navigate("/");
+            await login(inputs).then(
+                () => {
+                    navigate("/");
+                    window.location.reload();
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
         } catch (err) {
             alert(err.response.data);
         }
@@ -32,7 +41,7 @@ function Login() {
     return (
         <div className={styles.login}>
             <div className={styles.loginHeader}>
-                <img src={Logo} alt="GymJorney Logo"/>
+                <img src={Logo} alt="GymJorney Logo" />
                 <h4>GymJourney</h4>
             </div>
             <form className={styles.loginForm}>

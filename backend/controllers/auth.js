@@ -14,7 +14,7 @@ export const register = (req, res) => {
 
         //Check if password and repPassword are the same
         if(password !== repPassword)
-        return res.status(500).json("Die Passwörter stimmen nicht überein!");
+        return res.status(500).json({msg: "Die Passwörter stimmen nicht überein!"});
 
         //Hash password of new user
         const salt = bcrypt.genSaltSync(10);
@@ -42,29 +42,33 @@ export const login = (req, res) => {
 
     db.query(q, [req.body.username], (err, data) => {
         if (err) return res.status(500).json(err);
-        if (data.length === 0) return res.status(404).json("Benutzername oder Passwort falsch!");
+        if (data.length === 0) return res.status(404).json({msg: "Benutzername oder Passwort falsch!"});
 
         const passwordIsRight = bcrypt.compareSync(req.body.password, data[0].password);
 
         if (!passwordIsRight) {
-            return res.status(400).json("Das Passwort ist nicht korrekt!");
+            return res.status(400).json({msg: "Benutzername oder Passwort falsch!"});
         }
 
         //Only return the remainingData without the password as a cookie
-        const token = jwt.sign({ id: data[0].id }, "verysecretkey");
-        const { password, ...remainingData } = data[0];
+        const accessToken = jwt.sign({ id: data[0].id, username: req.body.username }, "verysecretkey");
+        //const { password, ...remainingData } = data[0];
 
-        res.cookie("accessToken", token, {
+        /*res.cookie("accessToken", token, {
             httpOnly: true,
-        }).status(200).json(remainingData)
-    })
+        }).status(200).json(remainingData)*/
+
+        res.json({
+            accessToken,
+        });
+    });
 }
 
-export const logout = (req, res) => {
+/*export const logout = (req, res) => {
     //Delete Cookie on logout
     res.clearCookie("accessToken",{
         secure: true,
         sameSite: "none", //Because backend port is different to frontend port
     }).status(200).json("Nutzer erfolgreich abgemeldet!");
     console.log("HI");
-}
+}*/

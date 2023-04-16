@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Exercises.module.css';
-import { useQuery, useQueryClient, useMutation } from 'react-query';
-import { makeRequest } from '../../request';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import background from '../../assets/background.svg';
@@ -11,6 +10,7 @@ import Popup from 'reactjs-popup';
 import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
 
 
 function Exercises() {
@@ -30,45 +30,16 @@ function Exercises() {
     const queryClient = useQueryClient();
     const { workoutId } = useParams();
 
-    const { isLoading, error, data } = useQuery(["exercises"], () =>
-        makeRequest.get(`/exercises/${workoutId}`).then((res) => {
-            console.log(res.data);
-            return res.data;
-        })
-    );
+    const refetch = () => {
+        queryClient.invalidateQueries("exercises");
+    }
 
-    const postMutation = useMutation((exercise) => {
-        return makeRequest.post("/exercises", exercise);
-    },
-        {
-            //refetch exercises on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("exercises");
-            },
-        }
-    );
+    const { isLoading, error, data } = useQuery(["exercises"],
+        () => getRequest("/exercises/", workoutId));
 
-    const updateMutation = useMutation((exercise) => {
-        return makeRequest.put("/exercises", exercise);
-    },
-        {
-            //refetch exercises on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("exercises");
-            },
-        }
-    );
-
-    const deleteMutation = useMutation((exercise) => {
-        return makeRequest.delete(`/exercises/${exercise.id}`)
-    },
-        {
-            //refetch exercises on success
-            onSuccess: () => {
-                queryClient.invalidateQueries("exercises");
-            },
-        }
-    );
+    const postMutation = usePostMutation("/exercises", refetch);
+    const updateMutation = useUpdateMutation("/exercises", refetch);
+    const deleteMutation = useDeleteMutation("/exercises/", refetch);
 
     const handleNewExercise = () => {
         postMutation.mutate({
@@ -100,7 +71,7 @@ function Exercises() {
 
     const handleDeleteClick = (name, id) => {
         setDeleteExerciseOpen(true);
-        setDeleteExercise({name, id});
+        setDeleteExercise({ name, id });
     }
 
     return (

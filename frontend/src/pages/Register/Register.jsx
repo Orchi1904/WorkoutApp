@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
 import styles from './Register.module.css';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
 import axios from 'axios';
 import Logo from '../../assets/logo.svg';
+import AuthService from "../../services/auth.service";
 
 function Register() {
-  const { user, login, logout } = useAuth();
+  const { register } = AuthService;
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     username: "",
@@ -24,9 +24,15 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8800/api/auth/register", inputs);
-      await login(inputs);
-      navigate("/");
+      await register(inputs).then(
+        () => {
+          navigate("/");
+          window.location.reload();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     } catch (err) {
       alert(err.response.data);
     }
