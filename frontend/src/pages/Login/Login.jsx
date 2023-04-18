@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
-import { useAuth } from '../../context/AuthContext';
 import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
 import Logo from '../../assets/logo.svg';
 import AuthService from "../../services/auth.service";
 
 function Login() {
-    //const { user, login, logout } = useAuth();
     const { login } = AuthService;
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({
@@ -18,7 +16,6 @@ function Login() {
 
     const handleChange = (e) => {
         setInputs((prevInputs) => ({ ...prevInputs, [e.target.name]: e.target.value }));
-        console.log(inputs);
     }
 
     const handleLogin = async (e) => {

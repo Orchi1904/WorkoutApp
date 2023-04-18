@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
 import InputField from '../../components/InputField/InputField';
 import Button from '../../components/Button/Button';
-import axios from 'axios';
 import Logo from '../../assets/logo.svg';
 import AuthService from "../../services/auth.service";
 

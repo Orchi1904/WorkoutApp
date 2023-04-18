@@ -17,9 +17,10 @@
     display: flex;
     align-items: center;
     transition: border-radius 0.3s ease-in;
-    background-color: #121212;
+    background-color: #303030;
     color: white;
     padding: 10px 5px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.6);
 }
 
 .accordionHead > span{
@@ -44,10 +45,11 @@
     height 0.2s ease-in;
     width: 80%;
     padding: 5px;
-    background-color: #1c1c1c;
+    background-color: #272727;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 20px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.6);
 }
 
 .animated{
@@ -72,7 +74,7 @@
 
 .sets, .reps, .weight, .description, .ytVideo{
     text-align: center;
-    background-color: #252525;
+    background-color: #303030;
     padding: 5px;
     border-radius: 10px;
 }

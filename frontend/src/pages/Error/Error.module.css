@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "neon-font";
+    src: url("../../assets/fonts/Neon-e2wg.ttf");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url("../../assets/errorBackground.jpg");
+    background-size: cover;
+}
+
+.error {
+    color: white;
+    width: 100%;
+    height: calc(100vh - 44px);
+}
+
+.errorText{
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}
+
+.errorText > h1{
+    font-size: 120px;
+    font-family: "neon-font", sans-serif;
+}
+
+.errorText > h2{
+    font-size: 30px;
+}
+
+.errorText > p {
+    font-size: 20px;
+}

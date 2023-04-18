@@ -9,15 +9,16 @@ import Workouts from './pages/Workouts/Workouts';
 import Exercises from './pages/Exercises/Exercises';
 import InfoBar from './components/InfoBar/InfoBar';
 import AuthService from './services/auth.service';
+import Error from './pages/Error/Error';
 
 const queryClient = new QueryClient();
 
 function App() {
-  const {getUser} = AuthService;
+  const { getUser } = AuthService;
 
   return (
     <QueryClientProvider client={queryClient}>
-      {getUser() && <InfoBar/>}
+      {getUser() && <InfoBar />}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -37,6 +38,8 @@ function App() {
             <Home />
           </PrivateRoute>
         } />
+
+        <Route path="*" element={<Error />}/>
       </Routes>
     </QueryClientProvider>
   );

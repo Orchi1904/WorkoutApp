@@ -1,7 +1,6 @@
 import { db } from "../connect.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { check, validationResult } from "express-validator";
 
 export const register = (req, res) => {
     const q = "SELECT * FROM users WHERE username = ? OR email = ?";
