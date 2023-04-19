@@ -1,8 +1,6 @@
 import React from 'react';
 import styles from './InfoBar.module.css';
 import Logo from '../../assets/logo.svg';
-import Button from '../Button/Button';
-import { useAuth } from '../../context/AuthContext';
 import IconButton from '../IconButton/IconButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +8,6 @@ import AuthService from '../../services/auth.service';
 import jwt_decode from "jwt-decode";
 
 function InfoBar() {
-    //const { user, login, logout } = useAuth();
     const navigate = useNavigate();
     const token = localStorage.getItem("user");
     const user = jwt_decode(token);

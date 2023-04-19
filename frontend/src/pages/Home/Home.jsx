@@ -1,11 +1,11 @@
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import './Home.css';
 import background from '../../assets/background.svg';
 import Button from '../../components/Button/Button';
 import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { useQuery, useQueryClient, } from 'react-query';
+import { useQueryClient, } from 'react-query';
 import WorkoutPlanPopup from '../../components/WorkoutPlanPopup/WorkoutPlanPopup';
 import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
@@ -20,6 +20,7 @@ function Home() {
   const [updateWorkoutPlanOpen, setUpdateWorkoutPlanOpen] = useState(false);
   const [deleteWorkoutPlanOpen, setDeleteWorkoutPlanOpen] = useState(false);
   const [createWorkoutPlanOpen, setCreateWorkoutPlanOpen] = useState(false);
+  const [workoutPlans, setWorkoutPlans] = useState([]);
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -28,8 +29,9 @@ function Home() {
     queryClient.invalidateQueries("workoutPlans");
   }
 
-  const { isLoading, error, data } = useQuery(["workoutPlans"],
-    () => getRequest("/workoutPlans"));
+  useEffect(() => {
+    getRequest(`/workoutPlans`, setWorkoutPlans, navigate);
+}, []);
 
   const postMutation = usePostMutation("/workoutPlans", refetch);
   const updateMutation = useUpdateMutation("/workoutPlans", refetch);
@@ -93,7 +95,7 @@ function Home() {
         </Popup>
 
         {
-          !data?.length && !isLoading ?
+          !workoutPlans?.length ?
             <div className="homeEmptyContainer">
               <img className="backgroundImg" src={background} alt="Empty workout plans image" />
               <p className="homeHint">
@@ -102,8 +104,8 @@ function Home() {
             </div>
             :
             <div className="homeWorkoutPlanContainer">
-              {data?.length &&
-                data.map((workoutPlan) => (
+              {workoutPlans?.length &&
+                workoutPlans.map((workoutPlan) => (
                   <DisplayContainer key={workoutPlan.id} textArr={[workoutPlan.name]}
                     onContainerClick={() => navigate(`/workoutPlans/${workoutPlan.id}/workouts`)}
                     onEditClick={() => handleEditClick(workoutPlan.name, workoutPlan.id)}

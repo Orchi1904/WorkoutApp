@@ -2,12 +2,16 @@ import { useMutation } from 'react-query';
 import authHeader from './auth.header';
 import { makeRequest } from '../request';
 
-export function getRequest(path, param = "") {
-    return makeRequest.get(path + param, { headers: authHeader() }).then((res) => {
-        return res.data;
-    },
-        (error) => {
-            console.log(error);
+export function getRequest(path, set, navigate) {
+    makeRequest.get(path, { headers: authHeader() })
+        .then(response => {
+            set(response.data);
+        })
+        .catch(error => {
+            if (error.response.status === 403) {
+                navigate("/404");
+            }
+            console.error(error);
         });
 }
 
