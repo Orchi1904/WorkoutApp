@@ -1,5 +1,4 @@
 import { useMutation } from 'react-query';
-import authHeader from './auth.header';
 import { makeRequest } from '../request';
 
 export function getRequest(path, set, navigate) {

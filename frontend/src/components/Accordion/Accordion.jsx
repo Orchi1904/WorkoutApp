@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './Accordion.module.css';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import YTEmbedded from '../YTEmbedded/YTEmbedded';

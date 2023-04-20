@@ -1,5 +1,4 @@
 import { db } from "../connect.js";
-import jwt from "jsonwebtoken";
 
 export const postWorkoutPlan = (req, res) => {
     const q = "INSERT INTO workout_plans (`name`, `userId`) VALUES (?)";
