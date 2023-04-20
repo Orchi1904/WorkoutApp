@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 const authToken = async (req, res, next) => {
-    const token = req.header("x-auth-token");
+    const token = req.cookies.accessToken;
 
     if(!token){
         return res.status(401).json({msg: "Nutzer ist nicht angemeldet!"});

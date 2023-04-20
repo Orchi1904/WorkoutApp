@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const API_URL = "http://localhost:8800/api/auth";
 
@@ -6,10 +7,6 @@ const register = async (inputs) => {
     return await axios
     .post(API_URL + "/register", inputs)
     .then((response) => {
-        if(response.data.accessToken){
-            localStorage.setItem("user", JSON.stringify(response.data));
-        }
-
         return response.data;
     });
 }
@@ -18,20 +15,16 @@ const login = async (inputs) => {
     return await axios
     .post(API_URL + "/login", inputs)
     .then((response) => {
-        if(response.data.accessToken){
-            localStorage.setItem("user", JSON.stringify(response.data));
-        }
-
         return response.data;
     });
 }
 
-const logout = () => {
-    localStorage.removeItem("user");
+const logout = async () => {
+    return await axios.post(API_URL + "/logout");
 }
 
 const getUser = () => {
-    return JSON.parse(localStorage.getItem("user"));
+    return Cookies.get("accessToken");
 }
 
 const authService = {

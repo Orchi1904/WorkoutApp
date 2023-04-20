@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './InfoBar.module.css';
 import Logo from '../../assets/logo.svg';
 import IconButton from '../IconButton/IconButton';
@@ -9,7 +9,8 @@ import jwt_decode from "jwt-decode";
 
 function InfoBar() {
     const navigate = useNavigate();
-    const token = localStorage.getItem("user");
+    const { getUser } = AuthService;
+    const token = getUser();
     const user = jwt_decode(token);
 
     const handleLogout = () => {

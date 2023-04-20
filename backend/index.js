@@ -1,5 +1,4 @@
 import express from "express";
-const app = express();
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
 import workoutRoutes from "./routes/workouts.js";
@@ -7,6 +6,8 @@ import workoutPlanRoutes from "./routes/workoutPlans.js";
 import exerciseRoutes from "./routes/exercises.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+
+const app = express();
 
 app.listen(8800, ()=>{
     console.log("Database working!")

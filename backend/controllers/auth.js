@@ -51,11 +51,10 @@ export const login = (req, res) => {
 
         //Only return the remainingData without the password as a cookie
         const accessToken = jwt.sign({ id: data[0].id, username: req.body.username }, "verysecretkey");
+        
         //const { password, ...remainingData } = data[0];
 
-        /*res.cookie("accessToken", token, {
-            httpOnly: true,
-        }).status(200).json(remainingData)*/
+        res.cookie("accessToken", accessToken);
 
         res.json({
             accessToken,
@@ -63,11 +62,8 @@ export const login = (req, res) => {
     });
 }
 
-/*export const logout = (req, res) => {
+export const logout = (req, res) => {
     //Delete Cookie on logout
-    res.clearCookie("accessToken",{
-        secure: true,
-        sameSite: "none", //Because backend port is different to frontend port
-    }).status(200).json("Nutzer erfolgreich abgemeldet!");
-    console.log("HI");
-}*/
+    res.clearCookie("accessToken");
+    return res.status(200).json("Nutzer erfolgreich abgemeldet!");
+}
