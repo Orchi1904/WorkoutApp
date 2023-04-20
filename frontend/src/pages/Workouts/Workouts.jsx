@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Workouts.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import Button from '../../components/Button/Button';
@@ -11,6 +11,8 @@ import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import WorkoutPopup from '../../components/WorkoutPopup/WorkoutPopup';
 import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
+import { toast } from 'react-toastify';
+import Toast from '../../components/Toast/Toast';
 
 function Workouts() {
     const weekdaysArr = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
@@ -27,9 +29,14 @@ function Workouts() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const refetch = () => {
+    const refetch = (operation) => {
+        toast.success(`Workout ${operation}`)
         queryClient.invalidateQueries("workouts");
     }
+
+    //Quick Fix - useQuery is needed so mutations are able to refetch...
+    const { isLoading, error, data } = useQuery(["workouts"],
+        () => getRequest(`/workouts/${workout_planId}`, setWorkouts, navigate));
 
     useEffect(() => {
         getRequest(`/workouts/${workout_planId}`, setWorkouts, navigate);
@@ -77,80 +84,77 @@ function Workouts() {
     }
 
     return (
-        <>
+        <div className={styles.workouts}>
+            <div className={styles.workoutsHeader}>
+                <h1 className={styles.workoutsTitle}>Meine Workouts</h1>
+
+                <Button text="+" onClick={() => setCreateWorkoutOpen(true)} />
+            </div>
+
+            {/*Create Workout popup*/}
+            <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
+                weekdaysArr={weekdaysArr} workout={createWorkout}
+                setWorkout={setCreateWorkout} onSubmit={() => handleNewWorkout()}
+                onClose={() => setCreateWorkoutOpen(false)}
+            />
+
+            {/*Update Workout popup*/}
+            <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
+                weekdaysArr={weekdaysArr} workout={updateWorkout}
+                setWorkout={setUpdateWorkout} onSubmit={() => handleUpdateWorkout()}
+                onClose={() => setUpdateWorkoutOpen(false)}
+            />
+
+            {/*Delete Workout popup*/}
+            <Popup open={deleteWorkoutOpen}
+                position="center"
+                onClose={() => setDeleteWorkoutOpen(false)}
+                modal>
+                <DeletePopup close={() => setDeleteWorkoutOpen(false)}
+                    text={`Workout "${deleteWorkout.name}" endgültig löschen?`}
+                    confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
+                    onCancel={setDeleteWorkoutOpen}
+                    onConfirm={handleDeleteWorkout}
+                />
+            </Popup>
+
             {
-                <div className={styles.workouts}>
-                    <div className={styles.workoutsHeader}>
-                        <h1 className={styles.workoutsTitle}>Meine Workouts</h1>
-
-                        <Button text="+" onClick={() => setCreateWorkoutOpen(true)} />
-                    </div>
-
-                    {/*Create Workout popup*/}
-                    <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
-                        weekdaysArr={weekdaysArr} workout={createWorkout}
-                        setWorkout={setCreateWorkout} onSubmit={() => handleNewWorkout()}
-                        onClose={() => setCreateWorkoutOpen(false)}
-                    />
-
-                    {/*Update Workout popup*/}
-                    <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
-                        weekdaysArr={weekdaysArr} workout={updateWorkout}
-                        setWorkout={setUpdateWorkout} onSubmit={() => handleUpdateWorkout()}
-                        onClose={() => setUpdateWorkoutOpen(false)}
-                    />
-
-                    {/*Delete Workout popup*/}
-                    <Popup open={deleteWorkoutOpen}
-                        position="center"
-                        onClose={() => setDeleteWorkoutOpen(false)}
-                        modal>
-                        <DeletePopup close={() => setDeleteWorkoutOpen(false)}
-                            text={`Workout "${deleteWorkout.name}" endgültig löschen?`}
-                            confirmBtnText={<CheckIcon />} cancelBtnText={<ClearIcon />}
-                            onCancel={setDeleteWorkoutOpen}
-                            onConfirm={handleDeleteWorkout}
-                        />
-                    </Popup>
-
-                    {
-                        weekdaysArr.map((weekday, index) => {
-                            const filteredWorkouts = Array.isArray(workouts) && workouts?.filter((workout) => workout.weekday === weekday) || [];
-                            return (
-                                <div className={styles.resultContainer} key={index}>
-                                    <div className={`${styles.workoutDays} ${currentDay === weekday && styles.currentWorkoutDay}`}>
-                                        {weekday}
-                                    </div>
-                                    {!filteredWorkouts.length ?
-                                        <div className={styles.noWorkoutsContainer}>
-                                            <img className={styles.noWorkoutsImg} src={noWorkoutsImg}
-                                                alt="No workouts">
-                                            </img>
-                                            <p className={styles.noWorkoutsText}>Trainingsfrei</p>
-                                        </div>
-
-                                        :
-
-                                        <div className={styles.workoutContainer}>
-                                            {filteredWorkouts.map((workout) => {
-                                                return (
-                                                    <DisplayContainer key={workout.id} textArr={[workout.name, workout.duration + " min"]}
-                                                        onDeleteClick={() => handleDeleteClick(workout.name, workout.id)}
-                                                        onEditClick={() => handleEditClick(workout.name, workout.weekday, workout.duration, workout.id)}
-                                                        onContainerClick={() =>
-                                                            navigate(`/workoutPlans/${workout_planId}/workouts/${workout.id}/exercises`)}
-                                                    />
-                                                )
-                                            })}
-                                        </div>
-                                    }
+                weekdaysArr.map((weekday, index) => {
+                    const filteredWorkouts = Array.isArray(workouts) && workouts?.filter((workout) => workout.weekday === weekday) || [];
+                    return (
+                        <div className={styles.resultContainer} key={index}>
+                            <div className={`${styles.workoutDays} ${currentDay === weekday && styles.currentWorkoutDay}`}>
+                                {weekday}
+                            </div>
+                            {!filteredWorkouts.length ?
+                                <div className={styles.noWorkoutsContainer}>
+                                    <img className={styles.noWorkoutsImg} src={noWorkoutsImg}
+                                        alt="No workouts">
+                                    </img>
+                                    <p className={styles.noWorkoutsText}>Trainingsfrei</p>
                                 </div>
-                            )
-                        })
-                    }
-                </div>
+
+                                :
+
+                                <div className={styles.workoutContainer}>
+                                    {filteredWorkouts.map((workout) => {
+                                        return (
+                                            <DisplayContainer key={workout.id} textArr={[workout.name, workout.duration + " min"]}
+                                                onDeleteClick={() => handleDeleteClick(workout.name, workout.id)}
+                                                onEditClick={() => handleEditClick(workout.name, workout.weekday, workout.duration, workout.id)}
+                                                onContainerClick={() =>
+                                                    navigate(`/workoutPlans/${workout_planId}/workouts/${workout.id}/exercises`)}
+                                            />
+                                        )
+                                    })}
+                                </div>
+                            }
+                        </div>
+                    )
+                })
             }
-        </>
+            <Toast />
+        </div>
     )
 }
 

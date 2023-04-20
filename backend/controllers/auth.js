@@ -25,9 +25,7 @@ export const register = (req, res) => {
 
         const accessToken = jwt.sign({ username }, "verysecretkey");
 
-        /*res.json({
-            accessToken,
-        });*/
+        res.cookie("accessToken", accessToken);
 
         db.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err);

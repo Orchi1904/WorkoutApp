@@ -5,6 +5,8 @@ import styles from './Login.module.css';
 import Button from '../../components/Button/Button';
 import Logo from '../../assets/logo.svg';
 import AuthService from "../../services/auth.service";
+import Toast from '../../components/Toast/Toast';
+import { toast } from "react-toastify";
 
 function Login() {
     const { login } = AuthService;
@@ -27,7 +29,7 @@ function Login() {
                     window.location.reload();
                 },
                 (error) => {
-                    console.log(error);
+                    toast.error(error.response.data.msg);
                 }
             );
         } catch (err) {
@@ -41,20 +43,25 @@ function Login() {
                 <img src={Logo} alt="GymJorney Logo" />
                 <h4>GymJourney</h4>
             </div>
-            <form className={styles.loginForm}>
+            <form className={styles.loginForm} onSubmit={handleLogin}>
                 <div className={styles.loginInputContainer}>
                     <InputField id="loginUsername" labelText="Benutzername: " type="text"
-                        name="username" onChange={handleChange} placeholder="Benutzername" />
+                        name="username" onChange={handleChange} placeholder="Benutzername"
+                        required={true}
+                    />
                 </div>
                 <div className={styles.loginInputContainer}>
                     <InputField id="loginPassword" labelText="Passwort: " type="password"
-                        name="password" onChange={handleChange} placeholder="Passwort" />
+                        name="password" onChange={handleChange} placeholder="Passwort"
+                        required={true}
+                    />
                 </div>
-                <Button onClick={handleLogin} text="Anmelden" />
+                <Button text="Anmelden" />
             </form>
             <p className={styles.register}>Neu bei GymJourney?
                 <span className={styles.registerBtn} onClick={() => navigate("/register")}> Jetzt registrieren!</span>
             </p>
+            <Toast />
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Exercises.module.css';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import background from '../../assets/background.svg';
@@ -11,7 +11,8 @@ import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
-
+import { toast } from 'react-toastify';
+import Toast from '../../components/Toast/Toast';
 
 function Exercises() {
     const [createExerciseOpen, setCreateExerciseOpen] = useState(false);
@@ -32,9 +33,14 @@ function Exercises() {
     const queryClient = useQueryClient();
     const { workoutId } = useParams();
 
-    const refetch = () => {
+    const refetch = (operation) => {
+        toast.success(`Übung ${operation}`)
         queryClient.invalidateQueries("exercises");
     }
+
+    //Quick Fix - useQuery is needed so mutations are able to refetch...
+    const { isLoading, error, data } = useQuery(["exercises"],
+        () => getRequest(`/exercises/${workoutId}`, setExercises, navigate));
 
     useEffect(() => {
         getRequest(`/exercises/${workoutId}`, setExercises, navigate);
@@ -44,7 +50,8 @@ function Exercises() {
     const updateMutation = useUpdateMutation("/exercises", refetch);
     const deleteMutation = useDeleteMutation("/exercises/", refetch);
 
-    const handleNewExercise = () => {
+    const handleNewExercise = (e) => {
+        e.preventDefault();
         postMutation.mutate({
             name: createExercise.name, numberOfSets: createExercise.numberOfSets,
             repsPerSet: createExercise.repsPerSet, weight: createExercise.weight,
@@ -57,7 +64,8 @@ function Exercises() {
         setCreateExerciseOpen(false);
     }
 
-    const handleUpdateExercise = () => {
+    const handleUpdateExercise = (e) => {
+        e.preventDefault();
         updateMutation.mutate(updateExercise);
         setUpdateExerciseOpen(false);
     }
@@ -87,14 +95,14 @@ function Exercises() {
             {/*Create Exercise popup*/}
             <ExercisePopup isOpen={createExerciseOpen} title="Übung erstellen"
                 exercise={createExercise}
-                setExercise={setCreateExercise} onSubmit={() => handleNewExercise()}
+                setExercise={setCreateExercise} onSubmit={(e) => handleNewExercise(e)}
                 onClose={() => setCreateExerciseOpen(false)}
             />
 
             {/*Update Exercise popup*/}
             <ExercisePopup isOpen={updateExerciseOpen} title="Übung bearbeiten"
                 exercise={updateExercise}
-                setExercise={setUpdateExercise} onSubmit={() => handleUpdateExercise()}
+                setExercise={setUpdateExercise} onSubmit={(e) => handleUpdateExercise(e)}
                 onClose={() => setUpdateExerciseOpen(false)}
             />
 
@@ -134,6 +142,7 @@ function Exercises() {
                     </div>
                 </div>
             }
+            <Toast />
         </div>
     )
 }

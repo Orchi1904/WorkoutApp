@@ -5,13 +5,15 @@ import Button from '../../components/Button/Button';
 import DisplayContainer from '../../components/DisplayContainer/DisplayContainer';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { useQueryClient, } from 'react-query';
+import { useQuery, useQueryClient, } from 'react-query';
 import WorkoutPlanPopup from '../../components/WorkoutPlanPopup/WorkoutPlanPopup';
 import DeletePopup from '../../components/DeletePopup/DeletePopup';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from 'react-router-dom';
 import { getRequest, useDeleteMutation, usePostMutation, useUpdateMutation } from '../../services/query.service';
+import { toast } from 'react-toastify';
+import Toast from '../../components/Toast/Toast';
 
 function Home() {
   const [createWorkoutPlan, setCreateWorkoutPlan] = useState({ name: "", id: null });
@@ -25,13 +27,18 @@ function Home() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const refetch = () => {
+  const refetch = (operation) => {
+    toast.success(`Trainingsplan ${operation}`)
     queryClient.invalidateQueries("workoutPlans");
   }
 
+  //Quick Fix - useQuery is needed so mutations are able to refetch...
+  const { isLoading, error, data } = useQuery(["workoutPlans"],
+    () => getRequest("/workoutPlans", setWorkoutPlans, navigate));
+
   useEffect(() => {
     getRequest(`/workoutPlans`, setWorkoutPlans, navigate);
-}, []);
+  }, []);
 
   const postMutation = usePostMutation("/workoutPlans", refetch);
   const updateMutation = useUpdateMutation("/workoutPlans", refetch);
@@ -115,6 +122,7 @@ function Home() {
             </div>
         }
       </div >
+      <Toast />
     </div >
   )
 }

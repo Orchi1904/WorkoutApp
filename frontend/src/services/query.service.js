@@ -19,7 +19,7 @@ export function usePostMutation(path, refetch) {
         return makeRequest.post(path, data);
     },
         {
-            onSuccess: () => refetch(),
+            onSuccess: () => refetch("erfolgreich angelegt!"),
         }
     );
 }
@@ -29,7 +29,7 @@ export function useUpdateMutation(path, refetch) {
         return makeRequest.put(path, data)
     },
         {
-            onSuccess: () => refetch(),
+            onSuccess: () => refetch("erfolgreich aktualisiert!"),
         }
     )
 }
@@ -39,7 +39,7 @@ export function useDeleteMutation(path, refetch) {
         return makeRequest.delete(path + data.id)
     },
         {
-            onSuccess: () => refetch(),
+            onSuccess: () => refetch("erfolgreich gelöscht!"),
         }
     )
 }

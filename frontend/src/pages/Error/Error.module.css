@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "neon-font";
-    src: url("../../assets/fonts/Neon-e2wg.ttf");
-}
-
 * {
     box-sizing: border-box;
 }
@@ -29,7 +24,6 @@
 
 .errorText > h1{
     font-size: 120px;
-    font-family: "neon-font", sans-serif;
 }
 
 .errorText > h2{
