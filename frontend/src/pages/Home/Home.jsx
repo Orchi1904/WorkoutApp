@@ -33,12 +33,8 @@ function Home() {
   }
 
   //Quick Fix - useQuery is needed so mutations are able to refetch...
-  const { isLoading, error, data } = useQuery(["workoutPlans"],
+  const { status } = useQuery(["workoutPlans"],
     () => getRequest("/workoutPlans", setWorkoutPlans, navigate));
-
-  useEffect(() => {
-    getRequest(`/workoutPlans`, setWorkoutPlans, navigate);
-  }, []);
 
   const postMutation = usePostMutation("/workoutPlans", refetch);
   const updateMutation = useUpdateMutation("/workoutPlans", refetch);

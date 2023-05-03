@@ -21,6 +21,16 @@ export const getWorkouts = (req, res) => {
     })
 }
 
+export const getWorkout = (req, res) => {
+    const q = "SELECT * from workouts WHERE id = ?";
+
+
+    db.query(q, req.params.workoutId, (err, workouts) => {
+        if(err) return res.status(500).json(err);
+        return res.status(200).json(workouts);
+    })
+}
+
 export const updateWorkout = (req, res) => {
     const q = "UPDATE workouts SET `name`= ?, `weekday` = ?, `duration` = ? WHERE id = ?"
 

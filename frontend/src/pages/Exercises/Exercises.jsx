@@ -28,10 +28,12 @@ function Exercises() {
     });
     const [deleteExercise, setDeleteExercise] = useState({ name: "", id: null });
     const [exercises, setExercises] = useState([]);
+    const [workout, setWorkout] = useState([]);
+
     const navigate = useNavigate();
 
     const queryClient = useQueryClient();
-    const { workoutId } = useParams();
+    const { workout_planId, workoutId } = useParams();
 
     const refetch = (operation) => {
         toast.success(`Übung ${operation}`)
@@ -43,7 +45,7 @@ function Exercises() {
         () => getRequest(`/exercises/${workoutId}`, setExercises, navigate));
 
     useEffect(() => {
-        getRequest(`/exercises/${workoutId}`, setExercises, navigate);
+        getRequest(`/workouts/${workoutId}/workoutPlans/${workout_planId}`, setWorkout, navigate);
     }, []);
 
     const postMutation = usePostMutation("/exercises", refetch);
@@ -88,7 +90,7 @@ function Exercises() {
     return (
         <div className={styles.exercises}>
             <div className={styles.exercisesHeader}>
-                <h1 className={styles.exercisesTitle}>Meine Übungen</h1>
+                <h1 className={styles.exercisesTitle}>"{workout[0]?.name}" - Übungen</h1>
                 <Button text="+" onClick={() => setCreateExerciseOpen(true)} />
             </div>
 

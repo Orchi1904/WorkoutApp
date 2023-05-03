@@ -25,6 +25,7 @@ function Workouts() {
     const [createWorkoutOpen, setCreateWorkoutOpen] = useState(false);
     const [currentDay, setCurrentDay] = useState("");
     const [workouts, setWorkouts] = useState([]);
+    const [workoutPlan, setWorkoutPlan] = useState([]);
 
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -39,7 +40,7 @@ function Workouts() {
         () => getRequest(`/workouts/${workout_planId}`, setWorkouts, navigate));
 
     useEffect(() => {
-        getRequest(`/workouts/${workout_planId}`, setWorkouts, navigate);
+        getRequest(`/workoutPlans/${workout_planId}`, setWorkoutPlan, navigate);
     }, []);
 
     useEffect(() => {
@@ -86,7 +87,7 @@ function Workouts() {
     return (
         <div className={styles.workouts}>
             <div className={styles.workoutsHeader}>
-                <h1 className={styles.workoutsTitle}>Meine Workouts</h1>
+                <h1 className={styles.workoutsTitle}>"{workoutPlan[0]?.name}" - Workouts</h1>
 
                 <Button text="+" onClick={() => setCreateWorkoutOpen(true)} />
             </div>
