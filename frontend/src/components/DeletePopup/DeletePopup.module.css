@@ -6,6 +6,8 @@
 
 .deletePopup > p{
     color: white;
+    text-align: center;
+    word-break: break-word;
 }
 
 .deletePopupHead{

@@ -32,13 +32,16 @@ function Home() {
     queryClient.invalidateQueries("workoutPlans");
   }
 
-  //Quick Fix - useQuery is needed so mutations are able to refetch...
+  const onError = (error) => {
+    toast.error(error);
+  }
+
   const { status } = useQuery(["workoutPlans"],
     () => getRequest("/workoutPlans", setWorkoutPlans, navigate));
 
-  const postMutation = usePostMutation("/workoutPlans", refetch);
-  const updateMutation = useUpdateMutation("/workoutPlans", refetch);
-  const deleteMutation = useDeleteMutation("/workoutPlans/", refetch);
+  const postMutation = usePostMutation("/workoutPlans", refetch, onError);
+  const updateMutation = useUpdateMutation("/workoutPlans", refetch, onError);
+  const deleteMutation = useDeleteMutation("/workoutPlans/", refetch, onError);
 
   const handleNewWorkoutPlan = (e) => {
     e.preventDefault();

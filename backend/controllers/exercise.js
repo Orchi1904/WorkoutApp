@@ -5,10 +5,14 @@ export const postExercise = (req, res) => {
 
     const ytLink = req.body.ytLink;
     const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([a-zA-Z0-9_-]{11})/;
+    const ytEmbedRegex = /https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
     const match = ytLink.match(ytRegex);
+    const matchEmbed = ytLink.match(ytEmbedRegex);
     let ytEmbeddedLink = "";
 
-    if (match) {
+    if(matchEmbed){
+        ytEmbeddedLink = ytLink;
+    }else if (match) {
         ytEmbeddedLink = `https://www.youtube.com/embed/${match[1]}`;
     } else {
         if (ytLink !== "") {
@@ -40,10 +44,14 @@ export const updateExercise = (req, res) => {
 
     const ytLink = req.body.ytLink;
     const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([a-zA-Z0-9_-]{11})/;
+    const ytEmbedRegex = /https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
     const match = ytLink.match(ytRegex);
+    const matchEmbed = ytLink.match(ytEmbedRegex);
     let ytEmbeddedLink = "";
 
-    if (match) {
+    if(matchEmbed){
+        ytEmbeddedLink = ytLink;
+    }else if (match) {
         ytEmbeddedLink = `https://www.youtube.com/embed/${match[1]}`;
     } else {
         if (ytLink !== "") {

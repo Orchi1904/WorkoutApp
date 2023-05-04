@@ -35,7 +35,10 @@ function Workouts() {
         queryClient.invalidateQueries("workouts");
     }
 
-    //Quick Fix - useQuery is needed so mutations are able to refetch...
+    const onError = (error) => {
+        toast.error(error);
+    }
+
     const { isLoading, error, data } = useQuery(["workouts"],
         () => getRequest(`/workouts/workoutPlans/${workout_planId}`, setWorkouts, navigate));
 
@@ -51,9 +54,9 @@ function Workouts() {
         setCurrentDay(weekdaysArrEnglishOrder[dayOfWeek]);
     })
 
-    const postMutation = usePostMutation("/workouts", refetch);
-    const updateMutation = useUpdateMutation("/workouts", refetch);
-    const deleteMutation = useDeleteMutation("/workouts/", refetch);
+    const postMutation = usePostMutation("/workouts", refetch, onError);
+    const updateMutation = useUpdateMutation("/workouts", refetch, onError);
+    const deleteMutation = useDeleteMutation("/workouts/", refetch, onError);
 
     const handleNewWorkout = (e) => {
         e.preventDefault();

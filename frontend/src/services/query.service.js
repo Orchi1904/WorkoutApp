@@ -14,32 +14,41 @@ export function getRequest(path, set, navigate) {
         });
 }
 
-export function usePostMutation(path, refetch) {
+export function usePostMutation(path, refetch, onError) {
     return useMutation((data) => {
         return makeRequest.post(path, data);
     },
         {
             onSuccess: () => refetch("erfolgreich angelegt!"),
+            onError: (error) => {
+                onError(error.response.data);
+            } 
         }
     );
 }
 
-export function useUpdateMutation(path, refetch) {
+export function useUpdateMutation(path, refetch, onError) {
     return useMutation((data) => {
         return makeRequest.put(path, data)
     },
         {
             onSuccess: () => refetch("erfolgreich aktualisiert!"),
+            onError: (error) => {
+                onError(error.response.data);
+            } 
         }
     )
 }
 
-export function useDeleteMutation(path, refetch) {
+export function useDeleteMutation(path, refetch, onError) {
     return useMutation((data) => {
         return makeRequest.delete(path + data.id)
     },
         {
             onSuccess: () => refetch("erfolgreich gelöscht!"),
+            onError: (error) => {
+                onError(error.response.data);
+            } 
         }
     )
 }

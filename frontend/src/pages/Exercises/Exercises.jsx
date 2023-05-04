@@ -36,11 +36,14 @@ function Exercises() {
     const { workout_planId, workoutId } = useParams();
 
     const refetch = (operation) => {
-        toast.success(`Übung ${operation}`)
+        toast.success(`Übung ${operation}`);
         queryClient.invalidateQueries("exercises");
     }
 
-    //Quick Fix - useQuery is needed so mutations are able to refetch...
+    const onError = (error) => {
+        toast.error(error);
+    }
+    
     const { isLoading, error, data } = useQuery(["exercises"],
         () => getRequest(`/exercises/workouts/${workoutId}`, setExercises, navigate));
 
@@ -48,9 +51,9 @@ function Exercises() {
         getRequest(`/workouts/${workoutId}/workoutPlans/${workout_planId}`, setWorkout, navigate);
     }, []);
 
-    const postMutation = usePostMutation("/exercises", refetch);
-    const updateMutation = useUpdateMutation("/exercises", refetch);
-    const deleteMutation = useDeleteMutation("/exercises/", refetch);
+    const postMutation = usePostMutation("/exercises", refetch, onError);
+    const updateMutation = useUpdateMutation("/exercises", refetch, onError);
+    const deleteMutation = useDeleteMutation("/exercises/", refetch, onError);
 
     const handleNewExercise = (e) => {
         e.preventDefault();
