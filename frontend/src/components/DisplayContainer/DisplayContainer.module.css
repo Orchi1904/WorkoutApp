@@ -1,8 +1,8 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-.displayContainer{
+.displayContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,17 +25,17 @@
     padding: 10px 0px;
 }
 
-.displayContainer:hover{
+.displayContainer:hover {
     background-color: #1779ba;
 }
 
-.displayContainerIcons{
+.displayContainerIcons {
     display: flex;
     flex-direction: row;
 }
 
-@media screen and (min-height: 800px){
-    .textContainer{
+@media screen and (min-height: 800px) {
+    .textContainer {
         padding: 20px 0px;
     }
 }

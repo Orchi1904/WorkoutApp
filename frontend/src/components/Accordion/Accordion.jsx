@@ -29,18 +29,18 @@ function Accordion({ data, handleEditClick, handleDeleteClick }) {
                 </div>
                 <div className={styles.toggleContainerTop}>
                     <div className={styles.sets}>
-                        <p>Sätze</p>
+                        <p className={styles.toggleContainerHeadline}>💪Sätze</p>
                         <p>{data.numberOfSets}</p>
                     </div>
                     <div className={styles.reps}>
-                        <p>Wiederholungen</p>
+                        <p className={styles.toggleContainerHeadline}>🔁Wiederholungen</p>
                         <p>{data.repsPerSet}</p>
                     </div>
                 </div>
                 {data.weight !== null &&
                     <div className={styles.toggleContainerMid}>
                         <div className={styles.weight}>
-                            <p>Gewicht</p>
+                            <p className={styles.toggleContainerHeadline}>⚖️Gewicht</p>
                             <p>{data.weight + " kg"}</p>
                         </div>
                     </div>
@@ -48,13 +48,13 @@ function Accordion({ data, handleEditClick, handleDeleteClick }) {
                 <div className={styles.toggleContainerBottom}>
                     {data.description &&
                         <div className={styles.description}>
-                            <p>Beschreibung</p>
+                            <p className={styles.toggleContainerHeadline}>📝Beschreibung</p>
                             <p>{data.description}</p>
                         </div>
                     }
                     {data.ytLink &&
                         <div className={styles.ytVideo}>
-                            <p>Hilfsvideo</p>
+                            <p className={styles.toggleContainerHeadline}>💡Hilfsvideo</p>
                             <YTEmbedded ytLink={data.ytLink} />
                         </div>
                     }
