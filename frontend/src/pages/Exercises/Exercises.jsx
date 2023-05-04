@@ -42,7 +42,7 @@ function Exercises() {
 
     //Quick Fix - useQuery is needed so mutations are able to refetch...
     const { isLoading, error, data } = useQuery(["exercises"],
-        () => getRequest(`/exercises/${workoutId}`, setExercises, navigate));
+        () => getRequest(`/exercises/workouts/${workoutId}`, setExercises, navigate));
 
     useEffect(() => {
         getRequest(`/workouts/${workoutId}/workoutPlans/${workout_planId}`, setWorkout, navigate);

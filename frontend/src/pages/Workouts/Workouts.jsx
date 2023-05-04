@@ -37,7 +37,7 @@ function Workouts() {
 
     //Quick Fix - useQuery is needed so mutations are able to refetch...
     const { isLoading, error, data } = useQuery(["workouts"],
-        () => getRequest(`/workouts/${workout_planId}`, setWorkouts, navigate));
+        () => getRequest(`/workouts/workoutPlans/${workout_planId}`, setWorkouts, navigate));
 
     useEffect(() => {
         getRequest(`/workoutPlans/${workout_planId}`, setWorkoutPlan, navigate);
@@ -55,7 +55,8 @@ function Workouts() {
     const updateMutation = useUpdateMutation("/workouts", refetch);
     const deleteMutation = useDeleteMutation("/workouts/", refetch);
 
-    const handleNewWorkout = () => {
+    const handleNewWorkout = (e) => {
+        e.preventDefault();
         postMutation.mutate({
             name: createWorkout.name, weekday: createWorkout.weekday || "Montag",
             duration: createWorkout.duration, workout_planId
@@ -64,7 +65,8 @@ function Workouts() {
         setCreateWorkoutOpen(false);
     }
 
-    const handleUpdateWorkout = () => {
+    const handleUpdateWorkout = (e) => {
+        e.preventDefault();
         updateMutation.mutate(updateWorkout);
         setUpdateWorkoutOpen(false);
     }
@@ -95,14 +97,14 @@ function Workouts() {
             {/*Create Workout popup*/}
             <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
                 weekdaysArr={weekdaysArr} workout={createWorkout}
-                setWorkout={setCreateWorkout} onSubmit={() => handleNewWorkout()}
+                setWorkout={setCreateWorkout} onSubmit={(e) => handleNewWorkout(e)}
                 onClose={() => setCreateWorkoutOpen(false)}
             />
 
             {/*Update Workout popup*/}
             <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
                 weekdaysArr={weekdaysArr} workout={updateWorkout}
-                setWorkout={setUpdateWorkout} onSubmit={() => handleUpdateWorkout()}
+                setWorkout={setUpdateWorkout} onSubmit={(e) => handleUpdateWorkout(e)}
                 onClose={() => setUpdateWorkoutOpen(false)}
             />
 

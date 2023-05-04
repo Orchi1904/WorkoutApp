@@ -6,7 +6,7 @@ import workoutsAllowed from "../middlewares/workoutsAllowed.js";
 const router = express.Router()
 
 router.post("/", authToken, postWorkout);
-router.get("/:workout_planId", authToken, workoutsAllowed, getWorkouts);
+router.get("/workoutPlans/:workout_planId", authToken, workoutsAllowed, getWorkouts);
 router.get("/:workoutId/workoutPlans/:workout_planId", authToken, workoutsAllowed, getWorkout)
 router.put("/", authToken, updateWorkout);
 router.delete("/:id", authToken, deleteWorkout);

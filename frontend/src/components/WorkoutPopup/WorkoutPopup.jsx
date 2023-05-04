@@ -29,15 +29,17 @@ function WorkoutPopup({ title, isOpen, onClose, onSubmit, workout, setWorkout, w
                             ))}
                         </select>
                     </div>
-                    <InputField id="workoutName" labelText="Name des Workouts"
-                        onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
-                        value={workout.name} useLabel={true} />
-                    <InputField id="workoutDuration" type="number" labelText="Dauer des Workouts (min)"
-                        onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
-                        value={workout.duration} useLabel={true} />
-                    <div className={styles.workoutPopupButton}>
-                        <Button text="Speichern" onClick={onSubmit} />
-                    </div>
+                    <form onSubmit={onSubmit}>
+                        <InputField id="workoutName" labelText="Name des Workouts"
+                            onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
+                            value={workout.name} useLabel={true} required={true}/>
+                        <InputField id="workoutDuration" type="number" labelText="Dauer des Workouts (min)"
+                            onChange={(e) => setWorkout({ ...workout, duration: e.target.value })}
+                            value={workout.duration} useLabel={true} required={true}/>
+                        <div className={styles.workoutPopupButton}>
+                            <Button type="submit" text="Speichern" />
+                        </div>
+                    </form>
                 </div>
             </div>
         </Popup>

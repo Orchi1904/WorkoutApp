@@ -19,6 +19,10 @@
     flex-grow: 1;
 }
 
+form{
+    width: 100%;
+}
+
 .inputFieldContainer {
     width: 100%;
 }

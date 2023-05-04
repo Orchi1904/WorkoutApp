@@ -40,13 +40,15 @@ function Home() {
   const updateMutation = useUpdateMutation("/workoutPlans", refetch);
   const deleteMutation = useDeleteMutation("/workoutPlans/", refetch);
 
-  const handleNewWorkoutPlan = () => {
+  const handleNewWorkoutPlan = (e) => {
+    e.preventDefault();
     postMutation.mutate({ name: createWorkoutPlan.name });
     setCreateWorkoutPlan({ name: "", id: null });
     setCreateWorkoutPlanOpen(false);
   }
 
-  const handleUpdateWorkoutPlan = () => {
+  const handleUpdateWorkoutPlan = (e) => {
+    e.preventDefault();
     updateMutation.mutate(updateWorkoutPlan);
     setUpdateWorkoutPlanOpen(false);
   }
@@ -75,13 +77,13 @@ function Home() {
         {/*Create Workout plan popup*/}
         <WorkoutPlanPopup isOpen={createWorkoutPlanOpen} title="Trainingsplan erstellen"
           workoutPlan={createWorkoutPlan} setWorkoutPlan={setCreateWorkoutPlan}
-          onSubmit={handleNewWorkoutPlan} onClose={() => setCreateWorkoutPlanOpen(false)}
+          onSubmit={(e) => handleNewWorkoutPlan(e)} onClose={() => setCreateWorkoutPlanOpen(false)}
         />
 
         {/*Update Workout plan popup*/}
         <WorkoutPlanPopup isOpen={updateWorkoutPlanOpen} title="Trainingsplan bearbeiten"
           workoutPlan={updateWorkoutPlan} setWorkoutPlan={setUpdateWorkoutPlan}
-          onSubmit={handleUpdateWorkoutPlan} onClose={() => setUpdateWorkoutPlanOpen(false)}
+          onSubmit={(e) => handleUpdateWorkoutPlan(e)} onClose={() => setUpdateWorkoutPlanOpen(false)}
         />
 
         {/*Delete WorkoutPlan popup*/}

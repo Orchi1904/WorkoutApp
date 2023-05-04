@@ -17,14 +17,16 @@ function WorkoutPlanPopup({ title, isOpen, onClose, onSubmit, workoutPlan, setWo
                         <CloseIcon />
                     </IconButton>
                 </div>
-                <div className={styles.inputFieldContainer}>
-                    <InputField id="workoutPlanName" placeholder="Name des Trainingsplans"
-                        onChange={(e) => setWorkoutPlan({ ...workoutPlan, name: e.target.value })}
-                        value={workoutPlan.name} />
-                </div>
-                <div className={styles.workoutPlanPopupButton}>
-                    <Button text="Speichern" onClick={onSubmit} />
-                </div>
+                <form onSubmit={onSubmit}>
+                    <div className={styles.inputFieldContainer}>
+                        <InputField id="workoutPlanName" placeholder="Name des Trainingsplans"
+                            onChange={(e) => setWorkoutPlan({ ...workoutPlan, name: e.target.value })}
+                            value={workoutPlan.name} required={true} />
+                    </div>
+                    <div className={styles.workoutPlanPopupButton}>
+                        <Button type="submit" text="Speichern" />
+                    </div>
+                </form>
             </div>
         </Popup>
     )
