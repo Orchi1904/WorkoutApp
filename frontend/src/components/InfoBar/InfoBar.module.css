@@ -1,4 +1,4 @@
-.infoBar{
+.infoBar {
     display: flex;
     justify-content: space-between;
     gap: 10px;
@@ -11,38 +11,43 @@
     z-index: 100;
 }
 
-.leftSide{
+.leftSide {
     display: flex;
     align-items: center;
     cursor: pointer;
 }
 
-.leftSide > img{
+.leftSide>img {
     width: 40px;
     margin: 5px;
 }
 
-.leftSide > h3{
+.leftSide>h3 {
     font-size: 12px;
 }
 
-.middle{
+.middle {
     display: flex;
+    justify-content: center;
     align-items: center;
-    text-align: center;
+    width: 100%;
+    overflow: hidden;
 }
 
-.middle > p{
+.middle>p {
     margin-top: 10px;
     margin-bottom: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.rightSide{
+.rightSide {
     display: flex;
     align-items: center;
 }
 
-.rightSide > button{
+.rightSide>button {
     cursor: pointer;
     margin: 5px;
 }

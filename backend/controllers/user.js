@@ -33,11 +33,18 @@ export const updateUser = (req, res) => {
 }
 
 export const deleteUser = (req, res) => {
-    const token = req.cookies.accessToken;
+    /*const token = req.cookies.accessToken;
 
-    if (!token) return res.status(401).json("Nutzer ist nicht angemeldet!");
+    if (!token) return res.status(401).json("Nutzer ist nicht angemeldet!");*/
 
-    jwt.verify(token, "verysecretkey", (err, user) => {
+    const q = "DELETE FROM users WHERE id = ?";
+
+        db.query(q, [req.body.id], (err, data) => {
+            if (err) return res.status(500).json(err);
+            return res.status(200).json("Nutzer erfolgreich gelöscht!");
+        })
+
+    /*jwt.verify(token, "verysecretkey", (err, user) => {
         if (err) return res.status(403).json("Der Token ist nicht gültig!");
 
         const q = "DELETE FROM users WHERE id = ?";
@@ -46,5 +53,5 @@ export const deleteUser = (req, res) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("Nutzer erfolgreich gelöscht!");
         })
-    });
+    });*/
 }

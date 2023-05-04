@@ -23,12 +23,12 @@ export const register = (req, res) => {
 
         const values = [username, email, hashedPassword];
 
-        const accessToken = jwt.sign({ username }, "verysecretkey");
-
-        res.cookie("accessToken", accessToken);
-
         db.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err);
+
+            const accessToken = jwt.sign({ id: data.insertId, username }, "verysecretkey");
+            res.cookie("accessToken", accessToken);
+            
             return res.status(200).json({accessToken, msg: "Der Nutzer wurde erfolgreich angelegt!"});
         });
     });

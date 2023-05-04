@@ -1,8 +1,8 @@
-* {
+*{
     box-sizing: border-box;
 }
 
-.displayContainer {
+.displayContainer{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,19 +23,27 @@
     word-break: break-all;
     margin-right: 5px;
     padding: 10px 0px;
+    
 }
 
-.displayContainer:hover {
+.textContainer > p{
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+}
+
+.displayContainer:hover{
     background-color: #1779ba;
 }
 
-.displayContainerIcons {
+.displayContainerIcons{
     display: flex;
     flex-direction: row;
 }
 
-@media screen and (min-height: 800px) {
-    .textContainer {
+@media screen and (min-height: 800px){
+    .textContainer{
         padding: 20px 0px;
     }
 }

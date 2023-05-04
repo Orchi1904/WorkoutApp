@@ -37,7 +37,7 @@ function Accordion({ data, handleEditClick, handleDeleteClick }) {
                         <p>{data.repsPerSet}</p>
                     </div>
                 </div>
-                {data.weight !== null &&
+                {data.weight !== 0 &&
                     <div className={styles.toggleContainerMid}>
                         <div className={styles.weight}>
                             <p className={styles.toggleContainerHeadline}>⚖️Gewicht</p>

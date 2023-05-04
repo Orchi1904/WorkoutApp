@@ -19,14 +19,14 @@ function Exercises() {
     const [updateExerciseOpen, setUpdateExerciseOpen] = useState(false);
     const [deleteExerciseOpen, setDeleteExerciseOpen] = useState(false);
     const [createExercise, setCreateExercise] = useState({
-        name: "", numberOfSets: null, repsPerSet: null,
-        weight: null, ytLink: "", description: "", id: null
+        name: "", numberOfSets: "", repsPerSet: "",
+        weight: "", ytLink: "", description: "", id: undefined
     });
     const [updateExercise, setUpdateExercise] = useState({
-        name: "", numberOfSets: null, repsPerSet: null,
-        weight: null, ytLink: "", description: "", id: null
+        name: "", numberOfSets: "", repsPerSet: "",
+        weight: "", ytLink: "", description: "", id: undefined
     });
-    const [deleteExercise, setDeleteExercise] = useState({ name: "", id: null });
+    const [deleteExercise, setDeleteExercise] = useState({ name: "", id: undefined });
     const [exercises, setExercises] = useState([]);
     const [workout, setWorkout] = useState([]);
 
@@ -60,8 +60,8 @@ function Exercises() {
             ytLink: createExercise.ytLink, description: createExercise.description, workoutId
         });
         setCreateExercise({
-            name: "", numberOfSets: null, repsPerSet: null,
-            weight: null, ytLink: "", description: "", id: null
+            name: "", numberOfSets: "", repsPerSet: "",
+            weight: "", ytLink: "", description: "", id: undefined
         });
         setCreateExerciseOpen(false);
     }

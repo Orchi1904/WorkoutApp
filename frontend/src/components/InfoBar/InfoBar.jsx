@@ -26,7 +26,7 @@ function InfoBar() {
                 <h3>GymJourney</h3>
             </div>
             <div className={styles.middle}>
-                <p>Angemeldet als: {user.username}</p>
+                <p>{user.username}</p>
             </div>
             <div className={styles.rightSide}>
                 <IconButton backgroundColor="#607D8B" hoverColor="#455A64" onClick={handleLogout}>
