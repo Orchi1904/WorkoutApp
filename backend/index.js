@@ -26,6 +26,6 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/workouts", workoutRoutes); //DONE
-app.use("/api/workoutPlans", workoutPlanRoutes); //DONE
+app.use("/api/workouts", workoutRoutes); 
+app.use("/api/workoutPlans", workoutPlanRoutes); 
 app.use("/api/exercises", exerciseRoutes);
