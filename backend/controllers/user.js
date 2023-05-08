@@ -13,6 +13,7 @@ export const getUser = (req, res) => {
     })
 }
 
+//Eventuell ungenutzt
 export const updateUser = (req, res) => {
     const token = req.cookies.accessToken;
 
@@ -32,6 +33,7 @@ export const updateUser = (req, res) => {
     });
 }
 
+//Eventuell ungenutzt
 export const deleteUser = (req, res) => {
     /*const token = req.cookies.accessToken;
 
