@@ -12,14 +12,11 @@ const workoutsAllowed = async (req, res, next) => {
         const workoutPlan = data[0];
 
         if(workoutPlan?.userId !== userId){
-            console.log("Forbidden!");
             return res.status(403).json("Forbidden");
         }else{
             next();
         }
-        
     })
-
 }
 
 export default workoutsAllowed;
