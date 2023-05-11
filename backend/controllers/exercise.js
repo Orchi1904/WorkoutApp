@@ -21,7 +21,7 @@ export const postExercise = (req, res) => {
     }
 
     const values = [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight,
-                    ytEmbeddedLink, req.body.description, req.body.workoutId];
+                    ytEmbeddedLink, req.body.description, req.params.workoutId];
 
     db.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
@@ -60,7 +60,7 @@ export const updateExercise = (req, res) => {
     }
 
     db.query(q,
-        [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight, ytEmbeddedLink, req.body.description, req.body.id],
+        [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight, ytEmbeddedLink, req.body.description, req.params.exerciseId],
         (err, data) => {
             if (err) return res.status(500).json(err);
             return res.status(200).json("Übung erfolgreich verändert!");
@@ -70,7 +70,7 @@ export const updateExercise = (req, res) => {
 export const deleteExercise = (req, res) => {
     const q = "DELETE FROM exercises WHERE id = ?";
 
-    db.query(q, [req.params.id], (err, data) => {
+    db.query(q, [req.params.exerciseId], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json("Übung erfolgreich gelöscht!");
     })
