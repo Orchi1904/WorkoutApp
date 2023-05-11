@@ -10,6 +10,7 @@ const workoutsAllowed = async (req, res, next) => {
         if(error) return res.status(500).json(error);
         
         const workoutPlan = data[0];
+        console.log(workoutPlan?.userId, userId);
 
         if(workoutPlan?.userId !== userId){
             return res.status(403).json("Forbidden");
