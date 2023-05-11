@@ -22,7 +22,7 @@ export const getWorkoutPlans = (req, res) => {
 export const getWorkoutPlan = (req, res) => {
     const q = "SELECT * FROM workout_plans WHERE id = ?";
 
-    db.query(q, [req.params.id], (err, workoutPlans) => {
+    db.query(q, [req.params.workout_planId], (err, workoutPlans) => {
         return err ? res.status(500).json(err) : res.status(200).json(workoutPlans);
     })
 }
@@ -31,7 +31,7 @@ export const updateWorkoutPlan = (req, res) => {
     const q = "UPDATE workout_plans SET `name` = ? WHERE id = ?";
 
     db.query(q,
-        [req.body.name, req.body.id],
+        [req.body.name, req.params.workout_planId],
         (err, user) => {
             if (err) res.status(500).json(err);
             return res.json("Trainingsplan erfolgreich geändert!");
@@ -41,7 +41,7 @@ export const updateWorkoutPlan = (req, res) => {
 export const deleteWorkoutPlan = (req, res) => {
     const q = "DELETE FROM workout_plans WHERE id = ?";
 
-    db.query(q, [req.params.id], (err, data) => {
+    db.query(q, [req.params.workout_planId], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json("Trainingsplan erfolgreich gelöscht!");
     })

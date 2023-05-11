@@ -3,7 +3,7 @@ import { db } from "../connect.js";
 export const postWorkout = (req, res) => {
     const q = "INSERT INTO workouts (`name`, `weekday`, `duration`, workout_planId) VALUES (?)";
 
-    const values = [req.body.name, req.body.weekday, req.body.duration, req.body.workout_planId];
+    const values = [req.body.name, req.body.weekday, req.body.duration, req.params.workout_planId];
 
     db.query(q, [values], (err, data) => {
         if(err) return res.status(500).json(err);
