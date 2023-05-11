@@ -42,7 +42,7 @@ export function useUpdateMutation(path, refetch, onError) {
 
 export function useDeleteMutation(path, refetch, onError) {
     return useMutation((data) => {
-        return makeRequest.delete(path + data.id)
+        return makeRequest.delete(path)
     },
         {
             onSuccess: () => refetch("erfolgreich gelöscht!"),

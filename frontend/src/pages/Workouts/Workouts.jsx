@@ -54,9 +54,9 @@ function Workouts() {
         setCurrentDay(weekdaysArrEnglishOrder[dayOfWeek]);
     })
 
-    const postMutation = usePostMutation("/workouts", refetch, onError);
-    const updateMutation = useUpdateMutation("/workouts", refetch, onError);
-    const deleteMutation = useDeleteMutation("/workouts/", refetch, onError);
+    const postMutation = usePostMutation(`/workouts/workoutPlans/${workout_planId}`, refetch, onError);
+    const updateMutation = useUpdateMutation(`/workouts/${updateWorkout.id}/workoutPlans/${workout_planId}`, refetch, onError);
+    const deleteMutation = useDeleteMutation(`/workouts/${deleteWorkout.id}/workoutPlans/${workout_planId}`, refetch, onError);
 
     const handleNewWorkout = (e) => {
         e.preventDefault();

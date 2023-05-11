@@ -40,8 +40,8 @@ function Home() {
     () => getRequest("/workoutPlans", setWorkoutPlans, navigate));
 
   const postMutation = usePostMutation("/workoutPlans", refetch, onError);
-  const updateMutation = useUpdateMutation("/workoutPlans", refetch, onError);
-  const deleteMutation = useDeleteMutation("/workoutPlans/", refetch, onError);
+  const updateMutation = useUpdateMutation(`/workoutPlans/${updateWorkoutPlan.id}`, refetch, onError);
+  const deleteMutation = useDeleteMutation(`/workoutPlans/${deleteWorkoutPlan.id}`, refetch, onError);
 
   const handleNewWorkoutPlan = (e) => {
     e.preventDefault();

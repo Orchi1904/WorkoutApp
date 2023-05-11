@@ -51,9 +51,9 @@ function Exercises() {
         getRequest(`/workouts/${workoutId}/workoutPlans/${workout_planId}`, setWorkout, navigate);
     }, []);
 
-    const postMutation = usePostMutation("/exercises", refetch, onError);
-    const updateMutation = useUpdateMutation("/exercises", refetch, onError);
-    const deleteMutation = useDeleteMutation("/exercises/", refetch, onError);
+    const postMutation = usePostMutation(`/exercises/workouts/${workoutId}`, refetch, onError);
+    const updateMutation = useUpdateMutation(`/exercises/${updateExercise.id}/workouts/${workoutId}`, refetch, onError);
+    const deleteMutation = useDeleteMutation(`/exercises/${deleteExercise.id}/workouts/${workoutId}`, refetch, onError);
 
     const handleNewExercise = (e) => {
         e.preventDefault();
