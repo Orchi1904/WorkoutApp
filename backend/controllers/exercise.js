@@ -4,15 +4,11 @@ export const postExercise = (req, res) => {
     const q = "INSERT INTO exercises (`name`, `numberOfSets`, `repsPerSet`, `weight`, `ytLink`, `description`, `workoutId`) VALUES (?)";
 
     const ytLink = req.body.ytLink;
-    const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([a-zA-Z0-9_-]{11})/;
-    const ytEmbedRegex = /https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
+    const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/;
     const match = ytLink.match(ytRegex);
-    const matchEmbed = ytLink.match(ytEmbedRegex);
     let ytEmbeddedLink = "";
-
-    if(matchEmbed){
-        ytEmbeddedLink = ytLink;
-    }else if (match) {
+    
+    if (match) {
         ytEmbeddedLink = `https://www.youtube.com/embed/${match[1]}`;
     } else {
         if (ytLink !== "") {
@@ -21,13 +17,12 @@ export const postExercise = (req, res) => {
     }
 
     const values = [req.body.name, req.body.numberOfSets, req.body.repsPerSet, req.body.weight,
-                    ytEmbeddedLink, req.body.description, req.params.workoutId];
+        ytEmbeddedLink, req.body.description, req.params.workoutId];
 
     db.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
         return res.status(200).json("Übung erfolgreich angelegt!");
     })
-
 }
 
 export const getExercises = (req, res) => {
@@ -43,15 +38,11 @@ export const updateExercise = (req, res) => {
     const q = "UPDATE exercises SET `name`= ?, `numberOfSets` = ?, `repsPerSet` = ?, `weight` = ?, `ytLink` = ?, `description` = ? WHERE id = ?";
 
     const ytLink = req.body.ytLink;
-    const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?([a-zA-Z0-9_-]{11})/;
-    const ytEmbedRegex = /https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
+    const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/;
     const match = ytLink.match(ytRegex);
-    const matchEmbed = ytLink.match(ytEmbedRegex);
     let ytEmbeddedLink = "";
 
-    if(matchEmbed){
-        ytEmbeddedLink = ytLink;
-    }else if (match) {
+    if (match) {
         ytEmbeddedLink = `https://www.youtube.com/embed/${match[1]}`;
     } else {
         if (ytLink !== "") {

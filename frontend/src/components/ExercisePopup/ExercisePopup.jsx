@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import InputField from '../../components/InputField/InputField';
 import styles from './ExercisePopup.module.css';
 
-function WorkoutPopup({ title, isOpen, onClose, onSubmit, exercise, setExercise }) {
+function ExercisePopup({ title, isOpen, onClose, onSubmit, exercise, setExercise }) {
 
     return (
         <Popup position="center" modal open={isOpen} onClose={onClose}>
@@ -48,4 +48,4 @@ function WorkoutPopup({ title, isOpen, onClose, onSubmit, exercise, setExercise 
     )
 }
 
-export default WorkoutPopup;
+export default ExercisePopup;
