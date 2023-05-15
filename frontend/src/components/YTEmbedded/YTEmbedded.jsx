@@ -19,8 +19,8 @@ function YTEmbedded({ ytLink }) {
                     width={width}
                     height="315"
                     src={ytLink}
-                    title="Schau dir dieses Video an!"
-                    allowFullScreen
+                    title="Embedded YouTube-Video"
+                    allow="fullscreen"
                     style={{zIndex: 0, border: "none", borderRadius: "10px" }}
                 />
             </LazyLoad>
