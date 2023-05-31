@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/InputField/InputField';
 import styles from './Login.module.css';
@@ -16,11 +16,11 @@ function Login() {
         password: "",
     });
 
-    const handleChange = (e) => {
+    const handleChange = useCallback((e) => {
         setInputs((prevInputs) => ({ ...prevInputs, [e.target.name]: e.target.value }));
-    }
+    }, []);
 
-    const handleLogin = async (e) => {
+    const handleLogin = useCallback(async (e) => {
         e.preventDefault();
         try {
             await login(inputs).then(
@@ -35,7 +35,7 @@ function Login() {
         } catch (err) {
             alert(err.response.data);
         }
-    }
+    }, [inputs]);
 
     return (
         <div className={styles.login}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './InfoBar.module.css';
 import Logo from '../../assets/logo.svg';
 import IconButton from '../IconButton/IconButton';
@@ -13,11 +13,11 @@ function InfoBar() {
     const token = getUser();
     const user = jwt_decode(token);
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         AuthService.logout();
         navigate("/login");
         window.location.reload();
-    }
+    }, [navigate]);
 
     return (
         <div className={styles.infoBar}>

@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styles from './DisplayContainer.module.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from '../IconButton/IconButton';
 
 function DisplayContainer({ textArr, onEditClick, onDeleteClick, onContainerClick }) {
-  const handleEditClick = (e) => {
+  const handleEditClick = useCallback((e) => {
     e.stopPropagation();
     onEditClick();
-  }
+  }, [onEditClick]);
 
-  const handleDeleteClick = (e) => {
+  const handleDeleteClick = useCallback((e) => {
     e.stopPropagation();
     onDeleteClick();
-  }
+  }, [onDeleteClick]);
 
   return (
     <div className={styles.displayContainer} onClick={onContainerClick}>

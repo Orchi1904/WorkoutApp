@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
 import InputField from '../../components/InputField/InputField';
@@ -18,11 +18,11 @@ function Register() {
     repPassword: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setInputs((prevInputs) => ({ ...prevInputs, [e.target.name]: e.target.value }));
-  }
+  }, []);
 
-  const handleRegister = async (e) => {
+  const handleRegister = useCallback(async (e) => {
     e.preventDefault();
     try {
       await register(inputs).then(
@@ -37,7 +37,7 @@ function Register() {
     } catch (err) {
       alert(err.response.data);
     }
-  }
+  }, [inputs, navigate, register]);
 
   return (
     <div className={styles.register}>

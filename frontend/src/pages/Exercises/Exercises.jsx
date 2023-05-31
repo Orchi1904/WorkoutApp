@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Exercises.module.css';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -35,14 +35,14 @@ function Exercises() {
     const queryClient = useQueryClient();
     const { workout_planId, workoutId } = useParams();
 
-    const refetch = (operation) => {
+    const refetch = useCallback((operation) => {
         toast.success(`Übung ${operation}`);
         queryClient.invalidateQueries("exercises");
-    }
+    }, [queryClient]);
 
-    const onError = (error) => {
+    const onError = useCallback((error) => {
         toast.error(error);
-    }
+    }, []);
     
     const { isLoading, error, data } = useQuery(["exercises"],
         () => getRequest(`/exercises/workouts/${workoutId}`, setExercises, navigate));
@@ -55,7 +55,7 @@ function Exercises() {
     const updateMutation = useUpdateMutation(`/exercises/${updateExercise.id}/workouts/${workoutId}`, refetch, onError);
     const deleteMutation = useDeleteMutation(`/exercises/${deleteExercise.id}/workouts/${workoutId}`, refetch, onError);
 
-    const handleNewExercise = (e) => {
+    const handleNewExercise = useCallback((e) => {
         e.preventDefault();
         postMutation.mutate({
             name: createExercise.name, numberOfSets: createExercise.numberOfSets,
@@ -67,28 +67,28 @@ function Exercises() {
             weight: "", ytLink: "", description: "", id: undefined
         });
         setCreateExerciseOpen(false);
-    }
+    }, [createExercise, postMutation, workoutId]);
 
-    const handleUpdateExercise = (e) => {
+    const handleUpdateExercise = useCallback((e) => {
         e.preventDefault();
         updateMutation.mutate(updateExercise);
         setUpdateExerciseOpen(false);
-    }
+    }, [updateMutation, updateExercise]);
 
-    const handleDeleteExercise = () => {
+    const handleDeleteExercise = useCallback(() => {
         deleteMutation.mutate(deleteExercise);
         setDeleteExerciseOpen(false);
-    }
+    }, [deleteMutation, deleteExercise]);
 
-    const handleEditClick = (name, numberOfSets, repsPerSet, weight, ytLink, description, id) => {
+    const handleEditClick = useCallback((name, numberOfSets, repsPerSet, weight, ytLink, description, id) => {
         setUpdateExerciseOpen(true);
         setUpdateExercise({ name, numberOfSets, repsPerSet, weight, ytLink, description, id });
-    }
+    }, []);
 
-    const handleDeleteClick = (name, id) => {
+    const handleDeleteClick = useCallback((name, id) => {
         setDeleteExerciseOpen(true);
         setDeleteExercise({ name, id });
-    }
+    }, []);
 
     return (
         <div className={styles.exercises}>

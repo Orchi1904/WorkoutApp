@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import { React, useState, useCallback } from 'react';
 import './Home.css';
 import background from '../../assets/background.svg';
 import Button from '../../components/Button/Button';
@@ -27,14 +27,14 @@ function Home() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const refetch = (operation) => {
+  const refetch = useCallback((operation) => {
     toast.success(`Trainingsplan ${operation}`)
     queryClient.invalidateQueries("workoutPlans");
-  }
+  }, [queryClient]);
 
-  const onError = (error) => {
+  const onError = useCallback((error) => {
     toast.error(error);
-  }
+  }, []);
 
   const { status } = useQuery(["workoutPlans"],
     () => getRequest("/workoutPlans", setWorkoutPlans, navigate));
@@ -43,33 +43,33 @@ function Home() {
   const updateMutation = useUpdateMutation(`/workoutPlans/${updateWorkoutPlan.id}`, refetch, onError);
   const deleteMutation = useDeleteMutation(`/workoutPlans/${deleteWorkoutPlan.id}`, refetch, onError);
 
-  const handleNewWorkoutPlan = (e) => {
+  const handleNewWorkoutPlan = useCallback((e) => {
     e.preventDefault();
     postMutation.mutate({ name: createWorkoutPlan.name });
     setCreateWorkoutPlan({ name: "", id: null });
     setCreateWorkoutPlanOpen(false);
-  }
+  }, [postMutation, createWorkoutPlan]);
 
-  const handleUpdateWorkoutPlan = (e) => {
+  const handleUpdateWorkoutPlan = useCallback((e) => {
     e.preventDefault();
     updateMutation.mutate(updateWorkoutPlan);
     setUpdateWorkoutPlanOpen(false);
-  }
+  }, [updateMutation, updateWorkoutPlan]);
 
-  const handleDeleteWorkoutPlan = (closePopup) => {
+  const handleDeleteWorkoutPlan = useCallback((closePopup) => {
     deleteMutation.mutate({ id: deleteWorkoutPlan.id });
     closePopup();
-  }
+  }, [deleteMutation, deleteWorkoutPlan]);
 
-  const handleEditClick = (name, id) => {
+  const handleEditClick = useCallback((name, id) => {
     setUpdateWorkoutPlanOpen(true);
     setUpdateWorkoutPlan({ name, id });
-  }
+  }, []);
 
-  const handleDeleteClick = (name, id) => {
+  const handleDeleteClick = useCallback((name, id) => {
     setDeleteWorkoutPlanOpen(true);
     setDeleteWorkoutPlan({ name, id });
-  }
+  }, []);
 
   return (
     <div className="home">

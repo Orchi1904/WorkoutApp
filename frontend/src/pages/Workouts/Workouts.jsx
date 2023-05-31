@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './Workouts.module.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useQueryClient } from 'react-query';
@@ -30,14 +30,14 @@ function Workouts() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
 
-    const refetch = (operation) => {
+    const refetch = useCallback((operation) => {
         toast.success(`Workout ${operation}`)
         queryClient.invalidateQueries("workouts");
-    }
+    }, [queryClient]);
 
-    const onError = (error) => {
+    const onError = useCallback((error) => {
         toast.error(error);
-    }
+    }, []);
 
     const { isLoading, error, data } = useQuery(["workouts"],
         () => getRequest(`/workouts/workoutPlans/${workout_planId}`, setWorkouts, navigate));
@@ -58,7 +58,7 @@ function Workouts() {
     const updateMutation = useUpdateMutation(`/workouts/${updateWorkout.id}/workoutPlans/${workout_planId}`, refetch, onError);
     const deleteMutation = useDeleteMutation(`/workouts/${deleteWorkout.id}/workoutPlans/${workout_planId}`, refetch, onError);
 
-    const handleNewWorkout = (e) => {
+    const handleNewWorkout = useCallback((e) => {
         e.preventDefault();
         postMutation.mutate({
             name: createWorkout.name, weekday: createWorkout.weekday || "Montag",
@@ -66,28 +66,28 @@ function Workouts() {
         });
         setCreateWorkout({ name: "", weekday: "", duration: "", id: undefined });
         setCreateWorkoutOpen(false);
-    }
+    }, [postMutation, createWorkout, workout_planId]);
 
-    const handleUpdateWorkout = (e) => {
+    const handleUpdateWorkout = useCallback((e) => {
         e.preventDefault();
         updateMutation.mutate(updateWorkout);
         setUpdateWorkoutOpen(false);
-    }
+    }, [updateMutation, updateWorkout]);
 
-    const handleDeleteWorkout = (closePopup) => {
+    const handleDeleteWorkout = useCallback((closePopup) => {
         deleteMutation.mutate({ id: deleteWorkout.id });
         closePopup();
-    }
+    }, [deleteMutation, deleteWorkout]);
 
-    const handleEditClick = (name, weekday, duration, id) => {
+    const handleEditClick = useCallback((name, weekday, duration, id) => {
         setUpdateWorkoutOpen(true);
         setUpdateWorkout({ name, weekday, duration, id });
-    }
+    }, []);
 
-    const handleDeleteClick = (name, id) => {
+    const handleDeleteClick = useCallback((name, id) => {
         setDeleteWorkoutOpen(true);
         setDeleteWorkout({ name, id });
-    }
+    }, []);
 
     return (
         <div className={styles.workouts}>
