@@ -4,8 +4,8 @@ import authToken from "../middlewares/authenticateToken.js";
 
 const router = express.Router()
 
-router.get("/find/:userId", getUser);
-router.put("/", updateUser);
+router.get("/find/:userId", authToken, getUser);
+router.put("/", authToken, updateUser);
 router.delete("/", authToken, deleteUser);
 
 export default router;
