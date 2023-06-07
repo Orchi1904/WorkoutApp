@@ -8,20 +8,20 @@ const exercisesAllowed = async (req, res, next) => {
     const q = "SELECT workout_planId FROM workouts WHERE id = ?";
 
     db.query(q, [workoutId], (error, data) => {
-        if(error) return res.status(500).json(error);
-        if(!data.length){
+        if (error) return res.status(500).json(error);
+        if (!data.length) {
             return res.status(403).json("Forbidden");
-        }else{
+        } else {
             workoutPlanId = data[0].workout_planId;
-        
+
             const workoutPlanQuerry = "SELECT userId FROM workout_plans WHERE id = ?";
-    
+
             db.query(workoutPlanQuerry, [workoutPlanId], (error, data) => {
-                if(error) return res.status(500).json(error);
+                if (error) return res.status(500).json(error);
                 let workoutPlan = data[0];
-                if(workoutPlan.userId !== userId){
+                if (workoutPlan.userId !== userId) {
                     return res.status(403).json("Forbidden");
-                }else{
+                } else {
                     next();
                 }
             })

@@ -3,16 +3,16 @@ import jwt from "jsonwebtoken";
 const authToken = async (req, res, next) => {
     const token = req.cookies.accessToken;
 
-    if(!token){
-        return res.status(401).json({msg: "Nutzer ist nicht angemeldet!"});
-    } 
+    if (!token) {
+        return res.status(401).json({ msg: "Nutzer ist nicht angemeldet!" });
+    }
 
-    try{
+    try {
         const user = jwt.verify(token, "verysecretkey");
         req.userId = user.id;
         next();
-    }catch (error) {
-        res.status(403).json({msg: "Der Token ist nicht gültig!"});
+    } catch (error) {
+        res.status(403).json({ msg: "Der Token ist nicht gültig!" });
     }
 
 }

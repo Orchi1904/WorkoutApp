@@ -9,12 +9,12 @@ import cors from "cors";
 
 const app = express();
 
-app.listen(8800, ()=>{
+app.listen(8800, () => {
     console.log("Database working!")
 })
 
-//middlewares
-app.use((req, res, next)=>{ //Needed to send cookies
+//Needed to send cookies
+app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", true);
     next();
 });
@@ -26,6 +26,6 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/workouts", workoutRoutes); 
-app.use("/api/workoutPlans", workoutPlanRoutes); 
+app.use("/api/workouts", workoutRoutes);
+app.use("/api/workoutPlans", workoutPlanRoutes);
 app.use("/api/exercises", exerciseRoutes);

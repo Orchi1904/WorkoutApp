@@ -7,7 +7,7 @@ export const postExercise = (req, res) => {
     const ytRegex = /(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/)?([a-zA-Z0-9_-]{11})/;
     const match = ytLink.match(ytRegex);
     let ytEmbeddedLink = "";
-    
+
     if (match) {
         ytEmbeddedLink = `https://www.youtube.com/embed/${match[1]}`;
     } else {
