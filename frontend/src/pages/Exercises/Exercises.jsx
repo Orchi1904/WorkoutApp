@@ -43,10 +43,12 @@ function Exercises() {
     const onError = useCallback((error) => {
         toast.error(error);
     }, []);
-    
-    const { isLoading, error, data } = useQuery(["exercises"],
-        () => getRequest(`/exercises/workouts/${workoutId}`, setExercises, navigate));
 
+    const { status } = useQuery(["exercises"],
+        () => getRequest(`/exercises/workouts/${workoutId}`, setExercises, navigate)
+    );
+
+    //Used for workout request, to show workout name as page title
     useEffect(() => {
         getRequest(`/workouts/${workoutId}/workoutPlans/${workout_planId}`, setWorkout, navigate);
     }, []);
@@ -57,11 +59,7 @@ function Exercises() {
 
     const handleNewExercise = useCallback((e) => {
         e.preventDefault();
-        postMutation.mutate({
-            name: createExercise.name, numberOfSets: createExercise.numberOfSets,
-            repsPerSet: createExercise.repsPerSet, weight: createExercise.weight,
-            ytLink: createExercise.ytLink, description: createExercise.description, workoutId
-        });
+        postMutation.mutate({ ...createExercise, id: workoutId });
         setCreateExercise({
             name: "", numberOfSets: "", repsPerSet: "",
             weight: "", ytLink: "", description: "", id: undefined

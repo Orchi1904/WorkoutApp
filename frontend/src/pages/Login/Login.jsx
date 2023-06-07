@@ -35,7 +35,7 @@ function Login() {
         } catch (err) {
             alert(err.response.data);
         }
-    }, [inputs]);
+    }, [inputs, navigate, login]);
 
     return (
         <div className={styles.login}>

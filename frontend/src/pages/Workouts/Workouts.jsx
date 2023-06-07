@@ -39,9 +39,11 @@ function Workouts() {
         toast.error(error);
     }, []);
 
-    const { isLoading, error, data } = useQuery(["workouts"],
-        () => getRequest(`/workouts/workoutPlans/${workout_planId}`, setWorkouts, navigate));
+    const { status } = useQuery(["workouts"],
+        () => getRequest(`/workouts/workoutPlans/${workout_planId}`, setWorkouts, navigate)
+    );
 
+    //Used for workout plan request, to show workout plan name as page title
     useEffect(() => {
         getRequest(`/workoutPlans/${workout_planId}`, setWorkoutPlan, navigate);
     }, []);
@@ -60,10 +62,7 @@ function Workouts() {
 
     const handleNewWorkout = useCallback((e) => {
         e.preventDefault();
-        postMutation.mutate({
-            name: createWorkout.name, weekday: createWorkout.weekday || "Montag",
-            duration: createWorkout.duration, workout_planId
-        });
+        postMutation.mutate({ ...createWorkout, id: workout_planId });
         setCreateWorkout({ name: "", weekday: "", duration: "", id: undefined });
         setCreateWorkoutOpen(false);
     }, [postMutation, createWorkout, workout_planId]);
@@ -93,25 +92,24 @@ function Workouts() {
         <div className={styles.workouts}>
             <div className={styles.workoutsHeader}>
                 <h1 className={styles.workoutsTitle}>"{workoutPlan[0]?.name}" - Workouts</h1>
-
                 <Button text="+" onClick={() => setCreateWorkoutOpen(true)} />
             </div>
 
-            {/*Create Workout popup*/}
+            {/*Create workout popup*/}
             <WorkoutPopup isOpen={createWorkoutOpen} title="Workout erstellen"
                 weekdaysArr={weekdaysArr} workout={createWorkout}
                 setWorkout={setCreateWorkout} onSubmit={(e) => handleNewWorkout(e)}
                 onClose={() => setCreateWorkoutOpen(false)}
             />
 
-            {/*Update Workout popup*/}
+            {/*Update workout popup*/}
             <WorkoutPopup isOpen={updateWorkoutOpen} title="Workout bearbeiten"
                 weekdaysArr={weekdaysArr} workout={updateWorkout}
                 setWorkout={setUpdateWorkout} onSubmit={(e) => handleUpdateWorkout(e)}
                 onClose={() => setUpdateWorkoutOpen(false)}
             />
 
-            {/*Delete Workout popup*/}
+            {/*Delete workout popup*/}
             <Popup open={deleteWorkoutOpen}
                 position="center"
                 onClose={() => setDeleteWorkoutOpen(false)}
@@ -125,10 +123,10 @@ function Workouts() {
             </Popup>
 
             {
-                weekdaysArr.map((weekday, index) => {
+                weekdaysArr.map((weekday) => {
                     const filteredWorkouts = Array.isArray(workouts) && workouts?.filter((workout) => workout.weekday === weekday) || [];
                     return (
-                        <div className={styles.resultContainer} key={index}>
+                        <div className={styles.resultContainer} key={weekday}>
                             <div className={`${styles.workoutDays} ${currentDay === weekday && styles.currentWorkoutDay}`}>
                                 {weekday}
                             </div>

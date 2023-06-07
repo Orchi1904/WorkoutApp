@@ -77,19 +77,19 @@ function Home() {
         <h1 className="homeTitle">Meine Trainingspläne</h1>
         <Button text="+" onClick={() => setCreateWorkoutPlanOpen(true)} />
 
-        {/*Create Workout plan popup*/}
+        {/*Create workout plan popup*/}
         <WorkoutPlanPopup isOpen={createWorkoutPlanOpen} title="Trainingsplan erstellen"
           workoutPlan={createWorkoutPlan} setWorkoutPlan={setCreateWorkoutPlan}
           onSubmit={(e) => handleNewWorkoutPlan(e)} onClose={() => setCreateWorkoutPlanOpen(false)}
         />
 
-        {/*Update Workout plan popup*/}
+        {/*Update workout plan popup*/}
         <WorkoutPlanPopup isOpen={updateWorkoutPlanOpen} title="Trainingsplan bearbeiten"
           workoutPlan={updateWorkoutPlan} setWorkoutPlan={setUpdateWorkoutPlan}
           onSubmit={(e) => handleUpdateWorkoutPlan(e)} onClose={() => setUpdateWorkoutPlanOpen(false)}
         />
 
-        {/*Delete WorkoutPlan popup*/}
+        {/*Delete workout plan popup*/}
         <Popup open={deleteWorkoutPlanOpen}
           position="center"
           onClose={() => setDeleteWorkoutPlanOpen(false)}
