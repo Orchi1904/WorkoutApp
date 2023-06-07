@@ -17,7 +17,7 @@ import Toast from '../../components/Toast/Toast';
 function Workouts() {
     const weekdaysArr = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
     const { workout_planId } = useParams();
-    const [createWorkout, setCreateWorkout] = useState({ name: "", weekday: "", duration: "", id: undefined });
+    const [createWorkout, setCreateWorkout] = useState({ name: "", weekday: "Montag", duration: "", id: undefined });
     const [updateWorkout, setUpdateWorkout] = useState({ name: "", weekday: "", duration: "", id: undefined });
     const [deleteWorkout, setDeleteWorkout] = useState({ name: "", id: undefined });
     const [updateWorkoutOpen, setUpdateWorkoutOpen] = useState(false);
@@ -63,7 +63,7 @@ function Workouts() {
     const handleNewWorkout = useCallback((e) => {
         e.preventDefault();
         postMutation.mutate({ ...createWorkout, id: workout_planId });
-        setCreateWorkout({ name: "", weekday: "", duration: "", id: undefined });
+        setCreateWorkout({ name: "", weekday: "Montag", duration: "", id: undefined });
         setCreateWorkoutOpen(false);
     }, [postMutation, createWorkout, workout_planId]);
 
