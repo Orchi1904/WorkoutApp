@@ -5,18 +5,18 @@ const API_URL = "http://localhost:8800/api/auth";
 
 const register = async (inputs) => {
     return await axios
-    .post(API_URL + "/register", inputs)
-    .then((response) => {
-        return response.data;
-    });
+        .post(API_URL + "/register", inputs)
+        .then((response) => {
+            return response.data;
+        });
 }
 
 const login = async (inputs) => {
     return await axios
-    .post(API_URL + "/login", inputs)
-    .then((response) => {
-        return response.data;
-    });
+        .post(API_URL + "/login", inputs)
+        .then((response) => {
+            return response.data;
+        });
 }
 
 const logout = async () => {

@@ -22,7 +22,7 @@ export function usePostMutation(path, refetch, onError) {
             onSuccess: () => refetch("erfolgreich angelegt!"),
             onError: (error) => {
                 onError(error.response.data);
-            } 
+            }
         }
     );
 }
@@ -35,7 +35,7 @@ export function useUpdateMutation(path, refetch, onError) {
             onSuccess: () => refetch("erfolgreich aktualisiert!"),
             onError: (error) => {
                 onError(error.response.data);
-            } 
+            }
         }
     )
 }
@@ -48,7 +48,7 @@ export function useDeleteMutation(path, refetch, onError) {
             onSuccess: () => refetch("erfolgreich gelöscht!"),
             onError: (error) => {
                 onError(error.response.data);
-            } 
+            }
         }
     )
 }
