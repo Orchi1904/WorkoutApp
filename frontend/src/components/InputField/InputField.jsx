@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './InputField.module.css';
 
-function InputField({id, labelText, type, name, onChange, placeholder, value, useLabel, required}) {
+function InputField({ id, labelText, type, name, onChange, placeholder, value, useLabel, required }) {
     return (
         <div className={styles.inputField}>
             <label className={styles.inputLabel} htmlFor={id} hidden={!useLabel}> {labelText} </label>

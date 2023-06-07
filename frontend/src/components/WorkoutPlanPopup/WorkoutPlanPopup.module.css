@@ -32,13 +32,3 @@ form{
     justify-content: center;
     width: 100%;
 }
-
-.workoutPlanPopup > button{
-    width: 80%;
-}
-
-@media screen and (min-width: 1024px) {
-    .workoutPlanPopupButton > button {
-        width: 50%;
-    }
-}

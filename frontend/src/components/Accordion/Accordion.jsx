@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './Accordion.module.css';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import YTEmbedded from '../YTEmbedded/YTEmbedded';
@@ -9,7 +9,6 @@ import IconButton from '../IconButton/IconButton';
 
 function Accordion({ data, handleEditClick, handleDeleteClick }) {
     const [isOpened, setIsOpened] = useState(false);
-    const refContainer = useRef();
 
     return (
         <div className={styles.accordion}>
@@ -17,7 +16,7 @@ function Accordion({ data, handleEditClick, handleDeleteClick }) {
                 <ChevronRightIcon className={styles.chevronIcon} />
                 <span>{data.name}</span>
             </button>
-            <div ref={refContainer} className={isOpened ? `${styles.toggleContainer} ${styles.animated}` :
+            <div className={isOpened ? `${styles.toggleContainer} ${styles.animated}` :
                 styles.toggleContainer}
                 style={{ height: isOpened ? "fit-content" : 0 }}
             >

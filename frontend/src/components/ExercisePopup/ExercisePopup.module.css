@@ -26,13 +26,3 @@
     display: flex;
     justify-content: center;
 }
-
-.exercisePopupButton > button{
-    width: 80%;
-}
-
-@media screen and (min-width: 1024px){
-    .exercisePopupButton > button{
-        width: 50%;
-    }
-}

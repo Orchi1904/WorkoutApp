@@ -13,10 +13,10 @@ function DeletePopup({ title, close, text, confirmBtnText, cancelBtnText, onConf
             </div>
             <p>{text}</p>
             <div className={styles.buttons}>
-                <Button text={confirmBtnText} onClick={() => onConfirm(close)} 
-                        hoverColor="#2c703e"/>
-                <Button text={cancelBtnText} onClick={() => onCancel(false)} 
-                        hoverColor="#ff6347"/>
+                <Button text={confirmBtnText} onClick={() => onConfirm(close)}
+                    hoverColor="#2c703e" />
+                <Button text={cancelBtnText} onClick={() => onCancel(false)}
+                    hoverColor="#ff6347" />
             </div>
         </div>
     )

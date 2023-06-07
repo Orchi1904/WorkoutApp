@@ -37,16 +37,8 @@
     justify-content: center;
 }
 
-.workoutPopupButton > button{
-    width: 80%;
-}
-
 @media screen and (min-width: 1024px){
     .weekdaysSelector{
-        width: 50%;
-    }
-
-    .workoutPopupButton > button{
         width: 50%;
     }
 }
