@@ -13,6 +13,7 @@
 .homeTitle{
     color: white;
     text-align: center;
+    word-break: break-all;
 }
 
 .popup-content {

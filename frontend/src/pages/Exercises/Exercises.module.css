@@ -8,6 +8,7 @@
 
 .exercisesTitle{
     text-align: center;
+    word-break: break-all;
 }
 
 .exercisesHeader{

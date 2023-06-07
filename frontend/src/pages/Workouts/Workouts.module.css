@@ -12,6 +12,7 @@
 
 .workoutsTitle{
     text-align: center;
+    word-break: break-all;
 }
 
 .workoutsHeader{
